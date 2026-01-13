@@ -1,0 +1,7 @@
+Case ID: C7
+Phishing Type: Unexpected Attachment
+Email Subject: Payment Receipt
+Sender: billing@company-payments.com
+Detected Flags: Unexpected Attachment (F6)
+Description: Attachment named receipt.zip; may contain malware or malicious scripts.
+Reference: ENISA

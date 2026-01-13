@@ -1,0 +1,7 @@
+Case ID: C8
+Phishing Type: Grammar / Spelling Errors
+Email Subject: Unusal Login Actvity
+Sender: alerts@service.com
+Detected Flags: Grammar / Spelling Errors (F7), Urgency (F1)
+Description: Poor grammar and spelling; uses urgency to trick the user.
+Reference: NIST

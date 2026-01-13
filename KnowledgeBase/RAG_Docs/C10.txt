@@ -1,0 +1,7 @@
+Case ID: C10
+Phishing Type: Too Good to Be True
+Email Subject: Congratulations Winner!
+Sender: rewards@promo-gift.com
+Detected Flags: Too Good to Be True (F10), Urgency (F1)
+Description: Offers fake gift card; uses urgency to lure victim into clicking link.
+Reference: OWASP, ENISA

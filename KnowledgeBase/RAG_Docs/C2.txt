@@ -1,0 +1,7 @@
+Case ID: C2
+Phishing Type: Brand Impersonation
+Email Subject: Security Alert
+Sender: security@paypal-secure.com
+Detected Flags: Impersonation (F2), Suspicious Link (F3), Threatening Language (F9)
+Description: Pretends to be PayPal; threatens account suspension to force login via fake link.
+Reference: OWASP, Microsoft Security

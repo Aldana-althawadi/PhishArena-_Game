@@ -1,0 +1,7 @@
+Case ID: C1
+Phishing Type: Credential Theft
+Email Subject: Account Verification Required
+Sender: support@faceb0ok.com
+Detected Flags: Urgency (F1), Impersonation (F2), Suspicious Link (F3), Request for Credentials (F4)
+Description: Fake Facebook login page that urges the user to login immediately to verify account.
+Reference: OWASP, Google Security

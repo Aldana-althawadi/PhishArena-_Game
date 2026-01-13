@@ -1,0 +1,7 @@
+Case ID: C5
+Phishing Type: Suspicious Link
+Email Subject: Verify Your Email
+Sender: secure-login@random.com
+Detected Flags: Suspicious Link (F3), Request for Credentials (F4)
+Description: Link displayed as legitimate, but directs user to fake login page.
+Reference: OWASP, Google Security

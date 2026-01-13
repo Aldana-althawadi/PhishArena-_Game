@@ -1,0 +1,7 @@
+Case ID: C4
+Phishing Type: Financial Request
+Email Subject: Invoice Attached
+Sender: billing@company-payments.com
+Detected Flags: Unexpected Attachment (F6), Financial Request (F8)
+Description: Fake invoice attachment asking the victim to pay immediately.
+Reference: ENISA, NIST

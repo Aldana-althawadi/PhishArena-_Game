@@ -1,0 +1,7 @@
+Case ID: C6
+Phishing Type: Generic Greeting
+Email Subject: Account Notice
+Sender: noreply@service.com
+Detected Flags: Generic Greeting (F5), Request for Credentials (F4)
+Description: Email uses a generic greeting like "Dear User" to appear legitimate.
+Reference: OWASP

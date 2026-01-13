@@ -1,0 +1,7 @@
+Case ID: C3
+Phishing Type: Urgency / Fear
+Email Subject: Immediate Action Required
+Sender: noreply@outlook-alerts.com
+Detected Flags: Urgency (F1), Threatening Language (F9)
+Description: Threatening tone to pressure the user into immediate action; account will be locked soon.
+Reference: NIST, OWASP

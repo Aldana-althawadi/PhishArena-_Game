@@ -1,0 +1,7 @@
+Case ID: C9
+Phishing Type: Business Email Compromise
+Email Subject: Urgent Transfer
+Sender: ceo@company.com
+Detected Flags: Urgency (F1), Financial Request (F8)
+Description: Impersonates a company executive requesting immediate funds transfer.
+Reference: ENISA, NIST
