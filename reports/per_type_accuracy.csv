@@ -1,0 +1,6 @@
+expected_type,count,type_accuracy
+Brand Impersonation,1,0.0
+Business Email Compromise,1,1.0
+Credential Theft,1,0.0
+Gift / Prize Scam,1,0.0
+,2,1.0

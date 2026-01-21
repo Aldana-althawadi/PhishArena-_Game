@@ -1,0 +1,7 @@
+ts,email_id,expected_is_phishing,model_is_phishing,expected_flags,model_flags,flag_jaccard,confidence
+2026-01-18T11:54:47.561867Z,E1,True,True,F1;F2;F3;F9,Urgency (F1);Impersonation (F2);Suspicious Link (F3);Request for Credentials (F4),0.0,0.85
+2026-01-18T11:55:59.844395Z,E4,True,False,F5;F4;F3,,0.0,0.0
+2026-01-18T12:00:47.556326Z,E11,False,True,F1,Urgency (F1);Impersonation (F2),0.0,0.8
+2026-01-18T12:03:28.704939Z,E6,True,True,F1;F8;F9,Urgency (F1);Financial Request (F8),0.0,0.95
+2026-01-18T12:04:58.002793Z,E9,False,False,,,1.0,0.0
+2026-01-18T12:06:09.213853Z,E12,True,True,F10;F1;F3,Too Good to Be True (F10);Urgency (F1),0.0,0.95

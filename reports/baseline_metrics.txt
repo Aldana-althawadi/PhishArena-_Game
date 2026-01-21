@@ -1,0 +1,38 @@
+Baseline (before improvements)
+--------------------------------
+records_total = 6
+records_used  = 6
+TP = 3
+FP = 1
+TN = 1
+FN = 1
+accuracy  = 0.6667
+precision = 0.75
+recall    = 0.75
+f1        = 0.75
+
+
+Improved (after prompt & normalization fixes)
+---------------------------------------------
+records_total = 6
+records_used  = 6
+TP = 3
+FP = 0
+TN = 2
+FN = 1
+accuracy  = 0.8333
+precision = 1.00
+recall    = 0.75
+f1        = 0.8571
+
+
+Summary
+-------
+- Accuracy increased from 66.7% to 83.3%
+- False positives reduced from 1 to 0
+- Precision improved from 0.75 to 1.00
+- Recall remained stable at 0.75
+- Overall F1-score improved from 0.75 to 0.8571
+
+These results demonstrate that prompt refinement and output normalization
+significantly improved system reliability without reducing phishing detection capability.

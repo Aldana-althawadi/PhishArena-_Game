@@ -23,7 +23,7 @@ def analyze():
     result = analyze_email_pipeline(email_text)
 
     # Convert model flags list into a string for CSV
-    model_flags = ";".join(result.get("flags", []))
+    model_flags = ";".join([str(x) for x in result.get("flags", [])])
 
     # Log event
     log_event({

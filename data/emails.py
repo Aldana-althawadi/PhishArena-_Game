@@ -1,9 +1,29 @@
-# data/emails.py
+
+"""
+Synthetic email dataset for phishing-awareness simulation.
+
+Important note (for report honesty):
+- These emails are synthetic (created by the project team) to avoid ethical/legal risk of distributing real phishing content.
+- The structure and tactics are grounded in authoritative sources describing common phishing patterns.
+
+Primary grounding sources (authoritative):
+- CISA guidance on social engineering / phishing indicators (generic greetings, urgency, etc.).  :contentReference[oaicite:0]{index=0}
+- NIST guidance and NIST TN 2276 / phish-related publications describing phishing as social engineering to induce clicks/credential entry. :contentReference[oaicite:1]{index=1}
+- FBI IC3 / FBI resources describing Business Email Compromise (BEC) scams and their characteristics. :contentReference[oaicite:2]{index=2}
+- Microsoft Security research on file hosting / file-sharing services being misused for identity phishing. :contentReference[oaicite:3]{index=3}
+- FTC consumer guidance on fake prizes / sweepstakes scams (e.g., “You won” messages). :contentReference[oaicite:4]{index=4}
+- APWG Phishing Activity Trends Reports describing the prevalence and evolving techniques of phishing and related fraud. :contentReference[oaicite:5]{index=5}
+- ENISA threat landscape reporting phishing as a prevalent attack vector in fraud contexts. :contentReference[oaicite:6]{index=6}
+"""
 
 EMAILS = [
     # -------------------------
     # PHISHING (Obvious)
     # -------------------------
+
+    # E1: Brand impersonation + urgency + suspicious link + threat language
+    # Grounding: common phishing indicators: urgency + suspicious links + impersonation patterns
+    # (CISA/NIST general indicators). :contentReference[oaicite:7]{index=7}
     {
         "id": "E1",
         "title": "Facebook Security Alert",
@@ -19,6 +39,9 @@ EMAILS = [
         "expected_flags": ["F1", "F2", "F3", "F9"],
         "difficulty": "easy"
     },
+
+    # E2: Credential harvesting via password reset lure
+    # Grounding: phishing attempts to induce user to click a link and provide credentials (NIST phishing guidance). :contentReference[oaicite:8]{index=8}
     {
         "id": "E2",
         "title": "Password Reset Request",
@@ -34,6 +57,9 @@ EMAILS = [
         "expected_flags": ["F2", "F3", "F4"],
         "difficulty": "easy"
     },
+
+    # E3: Invoice scam + attachment lure (common financial phishing/fraud pattern)
+    # Grounding: phishing/fraud often uses invoices and attachments to trigger action (NIST describes phishing inducing clicks/downloads). :contentReference[oaicite:9]{index=9}
     {
         "id": "E3",
         "title": "Invoice Attached",
@@ -53,6 +79,10 @@ EMAILS = [
     # -------------------------
     # PHISHING (More Realistic)
     # -------------------------
+
+    # E4: Internal-portal / HR lure + credential request + generic greeting
+    # Grounding: generic greeting + credential request are common social engineering indicators (CISA). :contentReference[oaicite:10]{index=10}
+    # Also consistent with NIST definition of phishing as inducing credentials via fraudulent sites. :contentReference[oaicite:11]{index=11}
     {
         "id": "E4",
         "title": "HR Document Update",
@@ -69,6 +99,9 @@ EMAILS = [
         "expected_flags": ["F5", "F4", "F3"],
         "difficulty": "medium"
     },
+
+    # E5: File-sharing lure + suspicious link + expiry pressure
+    # Grounding: Microsoft reports identity phishing campaigns misusing file hosting/sharing services. :contentReference[oaicite:12]{index=12}
     {
         "id": "E5",
         "title": "Shared File From Colleague",
@@ -80,10 +113,13 @@ EMAILS = [
             "Note: Access expires soon."
         ),
         "expected_is_phishing": True,
-        "expected_type": "Suspicious Link",
+        "expected_type": "File-share / Link-based Phishing",
         "expected_flags": ["F1", "F3"],
         "difficulty": "medium"
     },
+
+    # E6: Business Email Compromise (BEC) style request for transfer + secrecy
+    # Grounding: FBI IC3 / FBI describe BEC as scams targeting payments/transfers via business email. :contentReference[oaicite:13]{index=13}
     {
         "id": "E6",
         "title": "CEO Request (BEC)",
@@ -104,6 +140,9 @@ EMAILS = [
     # -------------------------
     # PHISHING (Language / Errors)
     # -------------------------
+
+    # E7: Typos/grammar errors + urgency + suspicious link
+    # Grounding: CISA highlights common phishing indicators like poor grammar and suspicious links. :contentReference[oaicite:14]{index=14}
     {
         "id": "E7",
         "title": "Unusual Login Actvity",
@@ -122,6 +161,9 @@ EMAILS = [
     # -------------------------
     # LEGITIMATE EMAILS
     # -------------------------
+
+    # E8-E10: Legitimate internal/normal service messages included to measure false positives.
+    # Grounding: NIST/CISA recommend verifying context and avoiding over-trusting “security-looking” messages. :contentReference[oaicite:15]{index=15}
     {
         "id": "E8",
         "title": "Team Meeting Reminder",
@@ -167,8 +209,12 @@ EMAILS = [
     },
 
     # -------------------------
-    # BORDERLINE / GRAY CASES (for evaluation)
+    # BORDERLINE / GRAY CASES
     # -------------------------
+
+    # E11: Legit security alert style (borderline) to test over-flagging.
+    # Grounding: NIST discusses phishing as social engineering; legitimate alerts exist too,
+    # so evaluation should include borderline cases to measure false positives. :contentReference[oaicite:16]{index=16}
     {
         "id": "E11",
         "title": "Account Alert (Borderline)",
@@ -181,9 +227,12 @@ EMAILS = [
         ),
         "expected_is_phishing": False,
         "expected_type": "",
-        "expected_flags": ["F1"],  # borderline: urgency might appear but it's legitimate
+        "expected_flags": ["F1"],  # mild urgency can appear in legitimate security notices
         "difficulty": "hard"
     },
+
+    # E12: Prize/gift lure + urgency + suspicious link
+    # Grounding: FTC describes “you won a prize” scams as common fraud patterns. :contentReference[oaicite:17]{index=17}
     {
         "id": "E12",
         "title": "Prize Offer",

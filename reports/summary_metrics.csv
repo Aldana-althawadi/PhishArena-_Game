@@ -1,0 +1,2 @@
+records_total,records_used,TP,FP,TN,FN,accuracy,precision,recall,f1
+6,6,3,0,2,1,0.8333,1.0,0.75,0.8571

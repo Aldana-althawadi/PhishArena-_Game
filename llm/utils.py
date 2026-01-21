@@ -30,6 +30,42 @@ def safe_parse_json(text: str) -> Dict[str, Any]:
 
     return {"ok": False, "error": "No JSON object found in output", "raw": text}
 
+def normalize_flags(flags) -> list:
+    """
+    Ensure flags is ALWAYS a list of strings like ["F1", "F3"].
+
+    Handles these bad outputs:
+    - flags = [{"id":"F1"}, {"flag":"F3"}]
+    - flags = "F1"
+    - flags = [{"code":"F1", "reason":"..."}]
+    """
+    if flags is None:
+        return []
+
+    # If model returns one string instead of list
+    if isinstance(flags, str):
+        f = flags.strip()
+        return [f] if f else []
+
+    # If it's a list, clean each item
+    if isinstance(flags, list):
+        cleaned = []
+        for item in flags:
+            if isinstance(item, str):
+                s = item.strip()
+                if s:
+                    cleaned.append(s)
+            elif isinstance(item, dict):
+                # Try common keys the model might output
+                for key in ["id", "flag", "flag_id", "code", "name"]:
+                    val = item.get(key)
+                    if isinstance(val, str) and val.strip():
+                        cleaned.append(val.strip())
+                        break
+        return cleaned
+
+    # Unknown type
+    return []
 
 def normalize_result(parsed: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -50,7 +86,7 @@ def normalize_result(parsed: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "is_phishing": d.get("is_phishing", None),
         "phishing_type": d.get("phishing_type", "") or "",
-        "flags": d.get("flags", []) or [],
+        "flags": normalize_flags(d.get("flags", [])),
         "confidence": float(d.get("confidence", 0.0) or 0.0),
         "explanation": d.get("explanation", "") or "",
         "raw_output": parsed.get("raw", "")
