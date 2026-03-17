@@ -22,6 +22,7 @@ def safe_parse_json(text: str) -> Dict[str, Any]:
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
     if match:
         candidate = match.group(0)
+        candidate = re.sub(r",\s*([}\]])", r"\1", candidate)
         try:
             data = json.loads(candidate)
             return {"ok": True, "data": data, "raw": text}

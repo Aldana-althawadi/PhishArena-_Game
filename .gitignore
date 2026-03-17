@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+env/
+venv/
+
+# Logs
+logs/*.csv
+
+# Vector DB (optional, but recommended)
+KnowledgeBase/vector_db/
+
+# OS files
+.DS_Store
+
