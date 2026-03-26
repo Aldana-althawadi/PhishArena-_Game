@@ -11,14 +11,14 @@ def safe_parse_json(text: str) -> Dict[str, Any]:
     if not text:
         return {"ok": False, "error": "Empty LLM output", "raw": text}
 
-    # 1) Try direct JSON parse
+    # 1) direct JSON parse
     try:
         data = json.loads(text)
         return {"ok": True, "data": data, "raw": text}
     except Exception:
         pass
 
-    # 2) Try to extract the first {...} block
+    # 2) to extract the first {...} block
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
     if match:
         candidate = match.group(0)
@@ -57,7 +57,7 @@ def normalize_flags(flags) -> list:
                 if s:
                     cleaned.append(s)
             elif isinstance(item, dict):
-                # Try common keys the model might output
+                # common keys the model might output
                 for key in ["id", "flag", "flag_id", "code", "name"]:
                     val = item.get(key)
                     if isinstance(val, str) and val.strip():

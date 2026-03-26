@@ -1,0 +1,12 @@
+dn: uid=player1,ou=users,dc=emailme,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Player1
+sn: Player1
+uid: player1
+uidNumber: 10003
+gidNumber: 10003
+homeDirectory: /home/player1
+loginShell: /bin/bash
+mail: player1@emailme.com

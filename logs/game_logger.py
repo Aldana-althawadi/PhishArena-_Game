@@ -2,45 +2,31 @@ import csv
 import os
 from datetime import datetime
 
-LOG_FILE = "logs/game_results.csv"
+LOG_FILE = "logs/game_log.csv"
 
 
-def log_game_result(student_id, email_id, expected_label, student_answer, ai_answer, difficulty):
-    # Check if the same record already exists
-    if os.path.isfile(LOG_FILE):
-        with open(LOG_FILE, mode="r", newline="") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if (
-                    row["student_id"] == str(student_id)
-                    and row["email_id"] == str(email_id)
-                    and row["student_answer"] == str(student_answer)
-                ):
-                    # Duplicate found → do not log again
-                    return
-
+def log_game_event(player, target, case_id, status, message):
+    os.makedirs("logs", exist_ok=True)
     file_exists = os.path.isfile(LOG_FILE)
 
-    with open(LOG_FILE, mode="a", newline="") as file:
+    with open(LOG_FILE, mode="a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
 
-        if not file_exists or os.stat(LOG_FILE).st_size == 0:
+        if not file_exists:
             writer.writerow([
                 "timestamp",
-                "student_id",
-                "email_id",
-                "expected_label",
-                "student_answer",
-                "ai_answer",
-                "difficulty"
+                "player",
+                "target",
+                "case_id",
+                "status",
+                "message"
             ])
 
         writer.writerow([
-            datetime.now().isoformat(),
-            student_id,
-            email_id,
-            expected_label,
-            student_answer,
-            ai_answer,
-            difficulty
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            player,
+            target,
+            case_id,
+            "SUCCESS" if status else "FAILED",
+            message.replace("\n", " ").strip()
         ])
