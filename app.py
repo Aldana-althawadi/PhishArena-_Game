@@ -217,6 +217,20 @@ def debug_progress():
         "levels": progress["levels"],
     }    
 
+@app.route("/reset-game")
+def reset_game():
+    import os
+    from cases.helpers import reset_active_cases
+
+    reset_active_cases()
+
+    if os.path.exists("logs/game_log.csv"):
+        os.remove("logs/game_log.csv")
+
+    session.clear()
+
+    return redirect(url_for("home"))    
+
 
 @app.post("/process-latest-email")
 def process_latest_email():

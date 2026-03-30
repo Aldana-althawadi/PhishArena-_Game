@@ -13,7 +13,7 @@ CASES = {
                 "level": "Junior",
                 "title": "School ID Verification",
                 "flag": "FLAG-1234",
-                "scenario": "A verification request reaches Alice’s desk. The message sounds school-related, but she cannot approve it unless the sender gives enough proof that they belong to the institution",
+                "scenario": "Alice receives a school-related verification request. The message must include enough clear and believable context to be accepted. Weak or unsupported details will make the request appear suspicious.",
                 "required_info": ["12345", "school"],
                 "owner_name": "Alice Johnson",
                 "owner_role": "Junior Staff Member",
@@ -29,7 +29,7 @@ Please provide your school ID and clearly explain your relation to the school so
 Best regards,
 Alice Johnson
 Student Affairs Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "ALICE_2",
@@ -53,7 +53,7 @@ To assist you with this request, please clarify your relation to the student and
 Best regards,
 Alice Johnson
 Student Affairs Department
-Raven Organization"""
+PhishArena """
             },
             {
                 "case_id": "ALICE_3",
@@ -77,7 +77,7 @@ Please provide more details regarding the enrollment confirmation along with rel
 Best regards,
 Alice Johnson
 Student Affairs Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "ALICE_4",
@@ -101,7 +101,7 @@ I’m unable to proceed with this authorization request at the moment. Please pr
 Best regards,
 Alice Johnson
 Student Affairs Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "ALICE_5",
@@ -125,7 +125,7 @@ Please provide a formal institutional verification request with clear student co
 Best regards,
 Alice Johnson
 Student Affairs Department
-Raven Organization"""
+PhishArena"""
             }
         ]
     },
@@ -160,7 +160,7 @@ However, I’m unable to verify this request at the moment. Please provide the s
 Best regards,
 Bob Smith
 Student Services Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "BOB_2",
@@ -184,7 +184,7 @@ Please provide a clear explanation of the student's absence along with the requi
 Best regards,
 Bob Smith
 Student Services Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "BOB_3",
@@ -208,7 +208,7 @@ Please confirm your relation to the student and provide more details regarding t
 Best regards,
 Bob Smith
 Student Services Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "BOB_4",
@@ -232,7 +232,7 @@ Please provide the student ID and additional details regarding the medical leave
 Best regards,
 Bob Smith
 Student Services Department
-Raven Organization"""
+PhishArena"""
             },
             {
                 "case_id": "BOB_5",
@@ -256,7 +256,7 @@ Please provide more detailed information about the transportation issue and incl
 Best regards,
 Bob Smith
 Student Services Department
-Raven Organization"""
+PhishArena"""
             }
         ]
     }
