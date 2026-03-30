@@ -5,6 +5,7 @@ CASES = {
         "department": "Student Affairs",
         "level": "Mixed",
         "bio": "Alice Johnson is a dedicated Junior Staff Member in the Student Affairs Department at Raven Organization. She supports students with enrollment, verification, and academic services.",
+        "image": "images/alice.png",
         "cases": [
             {
                 "case_id": "ALICE_1",
@@ -135,6 +136,7 @@ Raven Organization"""
         "department": "Student Services",
         "level": "Mixed",
         "bio": "Bob Smith is an Administrative Officer handling urgent student-related situations and communication with parents and families.",
+        "image": "images/bob.png",
         "cases": [
             {
                 "case_id": "BOB_1",

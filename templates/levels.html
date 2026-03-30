@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raven Organization | Levels</title>
+  <title>PhishArena | Levels</title>
   <style>
     :root {
       --bg: #09090f;
@@ -20,9 +20,7 @@
       --shadow: 0 0 30px rgba(91, 140, 255, 0.18);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -54,15 +52,19 @@
       backdrop-filter: blur(12px);
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 24px;
+    .brand h1 { margin: 0; font-size: 24px; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .brand p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
+    .logo {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
     }
 
     .nav {
@@ -287,21 +289,17 @@
       font-size: 13px;
       padding-bottom: 18px;
     }
-
-    @media (max-width: 800px) {
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="page">
     <header class="topbar">
       <div class="brand">
-        <h1>Raven Organization</h1>
-        <p>Email Challenge Portal</p>
+        <div class="brand-row">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="PhishArena Logo">
+          <h1>PhishArena</h1>
+        </div>
+        <p>Email Challenge Platform</p>
       </div>
 
       <nav class="nav">
@@ -351,8 +349,7 @@
       {% if selected_level_unlocked %}
         <div class="cases-grid">
           {% for case in level_cases %}
-            <div class="case-card
-              {% if case.completed %}completed{% elif case.openable %}playable{% else %}locked{% endif %}">
+            <div class="case-card {% if case.completed %}completed{% elif case.openable %}playable{% else %}locked{% endif %}">
               <h3>{{ case.title }}</h3>
 
               <div class="case-meta">
@@ -362,7 +359,7 @@
               </div>
 
               <div class="case-desc">
-                {{ case.scenario }}
+                {{ case.story if case.story else case.scenario }}
               </div>
 
               <div class="badge-row">
@@ -399,7 +396,7 @@
     </section>
 
     <div class="footer">
-      Raven Organization • Levels
+      PhishArena • Levels
     </div>
   </div>
 </body>

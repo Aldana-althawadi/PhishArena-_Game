@@ -11,6 +11,7 @@ from cases.helpers import (
     get_first_incomplete_case_in_level,
     can_open_case,
     get_next_case_in_level,
+    get_available_active_cases_for_player,
 )
 from logs.log_reader import read_game_logs
 from logs.game_logger import log_game_event
@@ -46,8 +47,7 @@ def home():
 def profiles():
     return render_template(
         "profiles.html",
-        username=PLAYER_USERNAME,
-        player_email=PLAYER_EMAIL,
+        profiles=CASES
     )
 
 
@@ -201,6 +201,21 @@ def dashboard():
         progress=progress,
         active_cases=active_cases,
     )
+
+
+@app.route("/debug-progress")
+def debug_progress():
+    log_rows = read_game_logs()
+    progress = get_progress_summary(log_rows, PLAYER_EMAIL)
+
+    return {
+        "player": PLAYER_EMAIL,
+        "log_count": len(log_rows),
+        "logs": log_rows,
+        "completed_case_ids": list(progress["completed_case_ids"]),
+        "collected_flags": list(progress["collected_flags"]),
+        "levels": progress["levels"],
+    }    
 
 
 @app.post("/process-latest-email")

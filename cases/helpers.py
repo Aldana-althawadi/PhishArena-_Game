@@ -130,14 +130,6 @@ def check_required_info(email_text: str, required_info: list):
 
 
 def build_player_progress(log_rows, player_email: str):
-    """
-    Reads player progress from logs.
-    Expected row keys:
-      - player
-      - case_id
-      - status or success
-      - flag (optional)
-    """
     completed_case_ids = set()
     collected_flags = set()
 
@@ -148,20 +140,21 @@ def build_player_progress(log_rows, player_email: str):
         if row_player != player_email:
             continue
 
-        # support both 'status' and 'success'
-        raw_status = row.get("status", row.get("success", False))
-        success = str(raw_status).strip().lower() in ("true", "1", "yes", "success")
+        raw_status = row.get("status", row.get("success", ""))
+        status_text = str(raw_status).strip().lower()
 
-        if not success:
+        is_success = status_text in ("true", "1", "yes", "success")
+
+        if not is_success:
             continue
 
         case_id = row.get("case_id")
         if case_id:
-            completed_case_ids.add(case_id)
+            completed_case_ids.add(case_id.strip())
 
         flag = row.get("flag")
         if flag:
-            collected_flags.add(flag)
+            collected_flags.add(flag.strip())
 
     return {
         "completed_case_ids": completed_case_ids,
@@ -259,10 +252,6 @@ def can_attempt_case(case: dict, log_rows, player_email: str):
 
 
 def get_available_active_cases_for_player(log_rows, player_email: str):
-    """
-    Returns the current active case for each target,
-    plus whether it is unlocked for this player.
-    """
     progress = get_progress_summary(log_rows, player_email)
     completed_case_ids = progress["completed_case_ids"]
 
@@ -278,6 +267,7 @@ def get_available_active_cases_for_player(log_rows, player_email: str):
             active_cases.append(case_copy)
 
     return active_cases
+    
 
 def get_cases_by_level_sorted(level_name: str):
     cases = [case for case in get_all_cases() if case.get("level") == level_name]

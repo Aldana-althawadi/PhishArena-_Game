@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raven Organization | Dashboard</title>
+  <title>PhishArena | Dashboard</title>
   <style>
     :root {
       --bg: #09090f;
@@ -49,18 +49,21 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 24px;
+    .brand h1 { margin: 0; font-size: 24px; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .brand p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
+    .logo {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
     }
 
     .nav {
@@ -248,25 +251,16 @@
       font-size: 13px;
       padding-bottom: 18px;
     }
-
-    @media (max-width: 980px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="page">
     <header class="topbar">
       <div class="brand">
-        <h1>Raven Organization</h1>
+        <div class="brand-row">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="PhishArena Logo">
+          <h1>PhishArena</h1>
+        </div>
         <p>Player Dashboard</p>
       </div>
 
@@ -376,7 +370,7 @@
     </section>
 
     <div class="footer">
-      Raven Organization Portal • Dashboard
+      PhishArena • Dashboard
     </div>
   </div>
 </body>
