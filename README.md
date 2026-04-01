@@ -88,7 +88,6 @@ PhishArena is a case-based interactive game where users complete email scenarios
 7. **Progress Through Levels**  
    Complete all cases in a level to unlock the next level.
 
----
 
 ### 🧠 Evaluation Logic
 
