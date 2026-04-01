@@ -135,45 +135,45 @@ Through this approach, users learn both **professional communication skills** an
 ---
 ## 📁 Project Structure
 phishArena/
-│
-├── app.py                     # Main Flask application (routes, logic)
-│
-├── cases/                     # Game scenarios and progression logic
-│   ├── profiles.py            # All cases (levels, scenarios, required info)
-│   ├── helpers.py             # Case navigation (get_active_case, advance_case)
-│
-├── mail/                      # Email handling (core system)
-│   ├── mail_reader.py         # Reads emails from Maildir with filtering
-│   ├── smtp_sender.py         # Sends AI responses via SMTP (Postfix)
-│
-├── llm/                       # AI / evaluation pipeline
-│   ├── checker.py             # Main validation logic
-│   ├── pipeline.py            # Processing pipeline
-│   ├── llm_handler.py         # LLM interaction (Ollama)
-│   ├── rag.py                 # Retrieval (RAG)
-│   ├── reply_generator.py     # Generates responses
-│   ├── post_processor.py      # Output validation
-│   ├── utils.py               # Helper functions
-│   ├── logger.py              # LLM logging
-│   └── ...                    # Additional supporting modules
-│
-├── logs/                      # Game logs and tracking
-│   ├── game_logger.py         # Stores player results and history
-│
-├── templates/                 # Frontend (Flask HTML pages)
-│   ├── index.html             # Home page
-│   ├── levels.html            # Levels selection
-│   ├── case.html              # Case gameplay page
-│   ├── dashboard.html         # Progress and stats
-│   ├── rules.html             # Game rules and instructions
-│   ├── profiles.html          # Target profiles (Alice, Bob)
-│
-├── static/                    # Static assets
-│   ├── images/                # Case hints, avatars, logos
-│
-├── env/                       # Virtual environment (not pushed to GitHub)
 
+- app.py  
+  Main Flask application (routes, logic)
 
+- cases/  
+  - profiles.py → All cases (levels, scenarios, required info)  
+  - helpers.py → Case navigation (get_active_case, advance_case)  
+
+- mail/  
+  - mail_reader.py → Reads emails from Maildir with filtering  
+  - smtp_sender.py → Sends AI responses via SMTP  
+
+- llm/  
+  - checker.py → Main validation logic  
+  - pipeline.py → Processing pipeline  
+  - llm_handler.py → LLM interaction  
+  - rag.py → Retrieval (RAG)  
+  - reply_generator.py → Generates responses  
+  - post_processor.py → Output validation  
+  - utils.py → Helper functions  
+  - logger.py → Logging  
+  - ... → Additional supporting modules  
+
+- logs/  
+  - game_logger.py → Stores player results  
+
+- templates/  
+  - index.html → Home page  
+  - levels.html → Levels page  
+  - case.html → Case gameplay  
+  - dashboard.html → Progress  
+  - rules.html → Rules  
+  - profiles.html → Target profiles  
+
+- static/  
+  - images/ → Hints, avatars, logos  
+
+- env/  
+  Virtual environment (not pushed to GitHub)
 
 ---
 
