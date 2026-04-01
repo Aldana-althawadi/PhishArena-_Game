@@ -137,43 +137,6 @@ Through this approach, users learn both **professional communication skills** an
 ## 🏗 System Architecture
 PhishArena is built using a combination of web technologies and real email infrastructure to simulate realistic communication scenarios.
 
-### 🔧 Core Components
-
-#### 🌐 Flask Web Application
-- Handles frontend and backend logic  
-- Manages routing, case progression, and user interaction  
-- Displays levels, cases, dashboard, and results  
-
-
-#### 📧 Mail Server (Postfix + Dovecot)
-
-- **Postfix (SMTP)** → handles sending emails  
-- **Dovecot (IMAP)** → handles receiving and storing emails  
-- Emails are stored locally using **Maildir format**
-
-
-#### 👤 User Management (OpenLDAP)
-
-- Stores user accounts (e.g., Alice, Bob, player1)  
-- Used for authentication and email identity  
-- Enables realistic multi-user environment  
-
-
-#### 💻 Email Client (Thunderbird)
-
-- Used by the player to send emails  
-- Connects to local mail server  
-- Allows real-world email interaction instead of web forms  
-
-
-#### 🤖 Email Evaluation (LLM Checker)
-
-- Processes the user’s email  
-- Verifies if required information is present  
-- Evaluates clarity, completeness, and credibility  
-- Returns feedback as legitimate or suspicious  
-
-
 ---
 ## 📁 Project Structure
 PhishArena/
