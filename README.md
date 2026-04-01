@@ -42,7 +42,6 @@ PhishArena uses a real email environment. You must configure Thunderbird to send
 - Username: player1
 - Password: pass123
 
----
 
 ### - 📥 Incoming Mail (IMAP - Dovecot)
 - Hostname: localhost
@@ -51,7 +50,6 @@ PhishArena uses a real email environment. You must configure Thunderbird to send
 - Connection Security: None
 - Authentication Method: Normal password
 
----
 
 ### - 📤 Outgoing Mail (SMTP - Postfix)
 - Hostname: localhost
@@ -61,33 +59,152 @@ PhishArena uses a real email environment. You must configure Thunderbird to send
 - Authentication Method: None
 
 ---
-
-### 🧠 Important Notes
-
-- All services run locally inside the Ubuntu VM.
-- Emails are stored in Maildir format:/home/<user>/Maildir/
-
----
-### 🔄 Game Flow
-
-1. Open a case in the web interface  
-2. Write your email in Thunderbird  
-3. Send it to the target (Alice or Bob)  
-4. Click **Check My Attempt**  
-5. The system evaluates your email and sends a reply  
-6. View the response in Thunderbird  
-
----
-
 ## 🎮 How It Works
+PhishArena is a case-based interactive game where users complete email scenarios to progress through levels.
+
+### Game Flow
+
+1. **Select a Level**  
+   Navigate to the Levels page and choose an unlocked level.
+
+2. **Open a Case**  
+   Each level contains multiple cases. Open the first available case.
+
+3. **Read the Mission Brief**  
+   Review the scenario, profile details, and image hints carefully.
+
+4. **Compose an Email**  
+   Use Thunderbird to write and send your email to the target (e.g., Alice or Bob).  
+   Your message must be clear, credible, and well-supported.
+
+5. **Check Your Attempt**  
+   Click **"Check My Attempt"** on the case page.  
+   The system retrieves your latest email and evaluates it.
+
+6. **Receive Feedback**  
+   - If your message is **legitimate**, the case is completed and you progress  
+   - If your message is **suspicious**, you must revise and resend
+
+7. **Progress Through Levels**  
+   Complete all cases in a level to unlock the next level.
+
+---
+
+### 🧠 Evaluation Logic
+
+Your email is evaluated based on:
+
+- Clarity
+- Completeness
+- Credibility
+
+A strong message appears legitimate.  
+A weak or misleading message is treated as suspicious (phishing-like behavior).
 
 ---
 
 ## 🧠 Core Concept
+PhishArena is built on the idea that the difference between legitimate communication and phishing often lies in **how information is presented**, not just what is requested.
+
+Instead of directly teaching users to detect phishing, the system trains them to:
+
+- Write clear and structured emails  
+- Provide sufficient and relevant information  
+- Understand how missing or weak details reduce credibility  
+
+### ✔ Legitimate Email
+
+A message is considered legitimate when it is:
+
+- Clear and well-structured  
+- Supported with enough relevant details  
+- Consistent and believable  
+- Contextually appropriate  
+
+
+### ⚠ Suspicious / Phishing-like Email
+
+A message is treated as suspicious when it is:
+
+- Vague or incomplete  
+- Missing important supporting details  
+- Misleading or poorly justified  
+- Lacking credibility or context  
+
+Through this approach, users learn both **professional communication skills** and how **phishing-like messages behave**, by experiencing how weak or misleading emails fail in realistic scenarios.
 
 ---
 
 ## 🏗 System Architecture
+PhishArena is built using a combination of web technologies and real email infrastructure to simulate realistic communication scenarios.
+
+### 🔧 Core Components
+
+#### 🌐 Flask Web Application
+- Handles frontend and backend logic  
+- Manages routing, case progression, and user interaction  
+- Displays levels, cases, dashboard, and results  
+
+
+#### 📧 Mail Server (Postfix + Dovecot)
+
+- **Postfix (SMTP)** → handles sending emails  
+- **Dovecot (IMAP)** → handles receiving and storing emails  
+- Emails are stored locally using **Maildir format**
+
+
+#### 👤 User Management (OpenLDAP)
+
+- Stores user accounts (e.g., Alice, Bob, player1)  
+- Used for authentication and email identity  
+- Enables realistic multi-user environment  
+
+
+#### 💻 Email Client (Thunderbird)
+
+- Used by the player to send emails  
+- Connects to local mail server  
+- Allows real-world email interaction instead of web forms  
+
+
+#### 🤖 Email Evaluation (LLM Checker)
+
+- Processes the user’s email  
+- Verifies if required information is present  
+- Evaluates clarity, completeness, and credibility  
+- Returns feedback as legitimate or suspicious  
+
+
+#### 📂 Mail Storage (Maildir)
+
+Emails are stored locally in:/home/<user>/Maildir/
+
+
+### 🔄 Email Processing Flow
+
+1. Player sends email using Thunderbird  
+2. Postfix receives the email  
+3. Dovecot stores it in Maildir  
+4. Flask backend retrieves the email  
+5. Email is filtered using:
+   - sender (player)
+   - receiver (target)
+   - case ID in subject  
+6. LLM checker evaluates the email  
+7. System sends a response back via SMTP  
+8. Player receives feedback in Thunderbird  
+
+
+### 🎯 Design Decision
+
+To avoid conflicts, the system does **not rely on the latest email only**.  
+Instead, it filters emails based on:
+
+- Sender (player account)  
+- Receiver (target persona)  
+- Case identifier in subject  
+
+This ensures accurate and conflict-free processing without requiring multiple user accounts.
 
 ---
 
