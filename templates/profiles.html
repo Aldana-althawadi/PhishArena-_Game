@@ -17,7 +17,9 @@
       --shadow: 0 0 30px rgba(91, 140, 255, 0.18);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -30,7 +32,7 @@
     }
 
     .page {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 24px;
     }
@@ -47,9 +49,6 @@
       box-shadow: var(--shadow);
     }
 
-    .brand h1 { margin: 0; font-size: 24px; }
-    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
-
     .brand-row {
       display: flex;
       align-items: center;
@@ -60,6 +59,17 @@
       width: 38px;
       height: 38px;
       object-fit: contain;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .nav {
@@ -99,7 +109,7 @@
     .header p {
       margin: 0;
       color: var(--muted);
-      max-width: 760px;
+      max-width: 900px;
       font-size: 17px;
       line-height: 1.7;
     }
@@ -118,7 +128,6 @@
       padding: 24px;
       box-shadow: var(--shadow);
       overflow: hidden;
-      position: relative;
     }
 
     .profile-top {
@@ -137,6 +146,7 @@
       border: 2px solid rgba(91, 140, 255, 0.35);
       box-shadow: 0 0 18px rgba(91, 140, 255, 0.20);
       background: rgba(255,255,255,0.04);
+      filter: brightness(0.9) contrast(1.1);
     }
 
     .profile-info h3 {
@@ -181,7 +191,8 @@
       font-size: 16px;
     }
 
-    .section p, .section li {
+    .section p,
+    .section li {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
@@ -221,7 +232,7 @@
       padding-bottom: 18px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       .profiles-grid {
         grid-template-columns: 1fr;
       }
@@ -258,103 +269,201 @@
     </header>
 
     <section class="header">
-      <h2>Staff Profiles</h2>
+      <h2>Organization Profiles</h2>
       <p>
-        These are the active staff members inside PhishArena. Both Alice and Bob
-        are used across multiple challenge levels, from Junior to CEO-level escalation scenarios.
+        These are the active staff members inside PhishArena. Each case is tied to a different target account
+        to create a more realistic organization flow and reduce mailbox conflicts during gameplay.
       </p>
     </section>
 
     <section class="profiles-grid">
       <div class="profile-card">
         <div class="profile-top">
-          <img
-            src="{{ url_for('static', filename='images/alice.png') }}"
-            alt="Alice Johnson"
-            class="profile-img"
-          >
-
+          <img src="{{ url_for('static', filename='images/profiles/alice.png') }}" alt="Alice Johnson" class="profile-img">
           <div class="profile-info">
             <h3>Alice Johnson</h3>
             <p>Junior Staff Member</p>
-            <p>Student Affairs Department</p>
+            <p>Student Affairs</p>
             <div class="badge-row">
-              <span class="badge">Cases: 5</span>
-              <span class="badge">Levels: Junior → CEO</span>
+              <span class="badge">Case: J1</span>
+              <span class="badge">Level: Junior</span>
             </div>
           </div>
         </div>
-
         <div class="section">
-          <h4>Profile Summary</h4>
-          <p>
-            Alice Johnson supports students with verification, enrollment, access requests,
-            and formal academic administration tasks.
-          </p>
-        </div>
-
-        <div class="section">
-          <h4>Typical Challenge Areas</h4>
-          <ul>
-            <li>Student ID verification</li>
-            <li>Attendance and parent communication</li>
-            <li>Enrollment confirmation</li>
-            <li>Authorization and escalation requests</li>
-          </ul>
-        </div>
-
-        <div class="section">
-          <h4>Communication Style</h4>
-          <p>
-            Alice is helpful and professional, but as the levels increase, her cases require
-            more precise, formal, and well-structured emails.
-          </p>
+          <h4>Security Lesson</h4>
+          <p>ID exposure and visible school information can be abused to create believable verification emails.</p>
         </div>
       </div>
 
       <div class="profile-card">
         <div class="profile-top">
-          <img
-            src="{{ url_for('static', filename='images/bob.png') }}"
-            alt="Bob Smith"
-            class="profile-img"
-          >
-
+          <img src="{{ url_for('static', filename='images/profiles/bob.png') }}" alt="Bob Smith" class="profile-img">
           <div class="profile-info">
             <h3>Bob Smith</h3>
             <p>Administrative Officer</p>
-            <p>Student Services Department</p>
+            <p>Student Services</p>
             <div class="badge-row">
-              <span class="badge">Cases: 5</span>
-              <span class="badge">Levels: Junior → Head</span>
+              <span class="badge">Case: J2</span>
+              <span class="badge">Level: Junior</span>
             </div>
           </div>
         </div>
-
         <div class="section">
-          <h4>Profile Summary</h4>
-          <p>
-            Bob Smith manages urgent student services, emergency coordination, medical and transport-related
-            requests, and sensitive operational communication.
-          </p>
+          <h4>Security Lesson</h4>
+          <p>Emergency and hospital-related details can be exploited to pressure staff into acting quickly.</p>
         </div>
+      </div>
 
-        <div class="section">
-          <h4>Typical Challenge Areas</h4>
-          <ul>
-            <li>Emergency hospital verification</li>
-            <li>Absence documentation</li>
-            <li>Emergency contact updates</li>
-            <li>Medical leave and transportation incidents</li>
-          </ul>
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/charlie.png') }}" alt="Charlie Brown" class="profile-img">
+          <div class="profile-info">
+            <h3>Charlie Brown</h3>
+            <p>Attendance Coordinator</p>
+            <p>Attendance Office</p>
+            <div class="badge-row">
+              <span class="badge">Case: J3</span>
+              <span class="badge">Level: Junior</span>
+            </div>
+          </div>
         </div>
-
         <div class="section">
-          <h4>Communication Style</h4>
-          <p>
-            Bob expects structured, credible explanations. Higher-level cases require stronger
-            urgency handling and more complete verification details.
-          </p>
+          <h4>Security Lesson</h4>
+          <p>Absence timing and supporting documentation hints can be misused to build credible excuse-based emails.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/steven.png') }}" alt="Steven Clark" class="profile-img">
+          <div class="profile-info">
+            <h3>Steven Clark</h3>
+            <p>Senior Records Officer</p>
+            <p>Attendance and Records</p>
+            <div class="badge-row">
+              <span class="badge">Case: S1</span>
+              <span class="badge">Level: Senior</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Family and relationship context can make social engineering messages sound more convincing.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/eve.png') }}" alt="Eve Adams" class="profile-img">
+          <div class="profile-info">
+            <h3>Eve Adams</h3>
+            <p>Emergency Contact Specialist</p>
+            <p>Student Support</p>
+            <div class="badge-row">
+              <span class="badge">Case: S2</span>
+              <span class="badge">Level: Senior</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Emergency contact information is highly sensitive and can be abused for fraudulent update requests.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/david.png') }}" alt="David Miller" class="profile-img">
+          <div class="profile-info">
+            <h3>David Miller</h3>
+            <p>Medical Leave Officer</p>
+            <p>Medical Services</p>
+            <div class="badge-row">
+              <span class="badge">Case: S3</span>
+              <span class="badge">Level: Senior</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Medical and leave-related information is sensitive and can be exploited to justify suspicious requests.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/sophia.png') }}" alt="Sophia Turner" class="profile-img">
+          <div class="profile-info">
+            <h3>Sophia Turner</h3>
+            <p>Head of Enrollment Services</p>
+            <p>Enrollment Office</p>
+            <div class="badge-row">
+              <span class="badge">Case: H1</span>
+              <span class="badge">Level: Head</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Leaked enrollment records and screenshots can be used to produce polished, document-based impersonation attempts.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/michael.png') }}" alt="Michael Harris" class="profile-img">
+          <div class="profile-info">
+            <h3>Michael Harris</h3>
+            <p>Head Operations Coordinator</p>
+            <p>Transport and Logistics</p>
+            <div class="badge-row">
+              <span class="badge">Case: H2</span>
+              <span class="badge">Level: Head</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Operational delays and transport disruptions create urgency that attackers can exploit in realistic emails.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/olivia.png') }}" alt="Olivia Bennett" class="profile-img">
+          <div class="profile-info">
+            <h3>Olivia Bennett</h3>
+            <p>Chief Administrative Officer</p>
+            <p>Access Control Division</p>
+            <div class="badge-row">
+              <span class="badge">Case: C1</span>
+              <span class="badge">Level: Chief</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Public discussion of access rights and privileged systems can support targeted authorization abuse attempts.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-top">
+          <img src="{{ url_for('static', filename='images/profiles/daniel.png') }}" alt="Daniel Walker" class="profile-img">
+          <div class="profile-info">
+            <h3>Daniel Walker</h3>
+            <p>Executive Director</p>
+            <p>Institutional Affairs</p>
+            <div class="badge-row">
+              <span class="badge">Case: CEO1</span>
+              <span class="badge">Level: CEO</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h4>Security Lesson</h4>
+          <p>Executives are high-value targets, and public institutional context can be abused for escalation-based attacks.</p>
         </div>
       </div>
     </section>
@@ -362,17 +471,16 @@
     <section class="tip-box">
       <h3>How to Use These Profiles</h3>
       <p>
-        These profiles provide public context only. They help you understand how to communicate with
-        each staff member, but they do not reveal the hidden validation rules.
+        These profiles give public context about each target, but they do not reveal the hidden validation logic.
+        Players must examine the case hints carefully and build a believable email using only the information exposed in the scenario.
       </p>
       <p>
-        Use Thunderbird to write emails that fit the staff member’s role, tone, and responsibilities.
-        As the level increases, the cases become more formal and demanding.
+        As the levels increase, the cases become more formal, more sensitive, and more realistic.
       </p>
     </section>
 
     <div class="footer">
-      PhishArena • Staff Profiles
+      PhishArena • Organization Profiles
     </div>
   </div>
 </body>

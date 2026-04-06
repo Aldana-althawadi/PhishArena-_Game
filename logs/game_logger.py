@@ -1,11 +1,12 @@
 import csv
 import os
+import json
 from datetime import datetime
 
 LOG_FILE = "logs/game_log.csv"
 
 
-def log_game_event(player, target, case_id, status, message, level="", flag=""):
+def log_game_event(player, target, case_id, level, status, flag, message, scores=None):
     os.makedirs("logs", exist_ok=True)
     file_exists = os.path.isfile(LOG_FILE)
 
@@ -21,7 +22,8 @@ def log_game_event(player, target, case_id, status, message, level="", flag=""):
                 "level",
                 "status",
                 "flag",
-                "message"
+                "message",
+                "scores"
             ])
 
         writer.writerow([
@@ -32,5 +34,6 @@ def log_game_event(player, target, case_id, status, message, level="", flag=""):
             level,
             "SUCCESS" if status else "FAILED",
             flag if status else "",
-            message.replace("\n", " ").strip()
+            message.replace("\n", " ").strip(),
+            json.dumps(scores) if scores else ""
         ])

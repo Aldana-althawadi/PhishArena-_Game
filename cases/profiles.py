@@ -1,131 +1,32 @@
 CASES = {
+
     "alice@emailme.com": {
         "name": "Alice Johnson",
         "role": "Junior Staff Member",
         "department": "Student Affairs",
-        "level": "Mixed",
-        "bio": "Alice Johnson is a dedicated Junior Staff Member in the Student Affairs Department at Raven Organization. She supports students with enrollment, verification, and academic services.",
-        "image": "images/alice.png",
+        "level": "Junior",
+        "bio": "Alice Johnson is a junior staff member in Student Affairs.",
+        "image": "images/profiles/alice.png",
         "cases": [
             {
-                "case_id": "ALICE_1",
+                "case_id": "J1",
                 "order_in_level": 1,
                 "level": "Junior",
                 "title": "School ID Verification",
                 "flag": "FLAG-1234",
-                "scenario": "Alice receives a school-related verification request. The message must include enough clear and believable context to be accepted. Weak or unsupported details will make the request appear suspicious.",
+
+                "mission_brief": "A hint image contains exposed school-related information connected to Alice. Use the available details to write a believable verification email.",
+                "expected_from_player": "Write a realistic and convincing email using the exposed details from the hint.",
+
                 "required_info": ["12345", "school"],
+
                 "owner_name": "Alice Johnson",
                 "owner_role": "Junior Staff Member",
-                "owner_department": "Student Affairs Department",
-                "image_prompt": "A realistic school administration help desk with a female junior staff member reviewing student verification documents, modern office, calm academic environment, dark blue UI-friendly style",
-                "image": "images/alice_1.png",
-                "failure_msg": """Hello,
+                "owner_department": "Student Affairs",
 
-I’m unable to verify your request at the moment.
+                "image": "images/cases/j1_alice.png",
 
-Please provide your school ID and clearly explain your relation to the school so I can proceed with the verification.
-
-Best regards,
-Alice Johnson
-Student Affairs Department
-PhishArena"""
-            },
-            {
-                "case_id": "ALICE_2",
-                "order_in_level": 1,
-                "level": "Senior",
-                "title": "Parent Attendance Inquiry",
-                "flag": "FLAG-5678",
-                "scenario": "Alice receives a message involving a student attendance concern. The request may be valid, but the relationship and context are not yet convincing",
-                "required_info": ["parent", "attendance", "student"],
-                "owner_name": "Alice Johnson",
-                "owner_role": "Junior Staff Member",
-                "owner_department": "Student Affairs Department",
-                "image_prompt": "A realistic parent communication scene in a school office, attendance records on a monitor, female staff member handling an inquiry, professional academic setting, cinematic dark blue and purple tones",
-                "image": "images/alice_2.png",
-                "failure_msg": """Hello,
-
-Thank you for your message.
-
-To assist you with this request, please clarify your relation to the student and provide more details regarding the attendance inquiry.
-
-Best regards,
-Alice Johnson
-Student Affairs Department
-PhishArena """
-            },
-            {
-                "case_id": "ALICE_3",
-                "order_in_level": 1,
-                "level": "Head",
-                "title": "Enrollment Confirmation Request",
-                "flag": "FLAG-9012",
-                "scenario": "A formal request has been sent to confirm a student’s enrollment. Alice needs enough context to believe the request is legitimate and necessary.",
-                "required_info": ["enrollment", "school", "student", "confirmation"],
-                "owner_name": "Alice Johnson",
-                "owner_role": "Junior Staff Member",
-                "owner_department": "Student Affairs Department",
-                "image_prompt": "A formal enrollment office scene with student records, school confirmation documents, female administrator at desk, polished academic administration interior, moody blue neon accents",
-                "image": "images/alice_3.png",
-                "failure_msg": """Hello,
-
-I’m unable to confirm the enrollment request based on the current information.
-
-Please provide more details regarding the enrollment confirmation along with relevant school-related context and student information.
-
-Best regards,
-Alice Johnson
-Student Affairs Department
-PhishArena"""
-            },
-            {
-                "case_id": "ALICE_4",
-                "order_in_level": 1,
-                "level": "Chief",
-                "title": "Special Access Authorization",
-                "flag": "FLAG-3456",
-                "scenario": "A sensitive administrative request has been placed in front of Alice. Access cannot be considered unless the message is written with the right tone and supporting context.",
-                "required_info": ["student", "authorization", "access", "request"],
-                "owner_name": "Alice Johnson",
-                "owner_role": "Junior Staff Member",
-                "owner_department": "Student Affairs Department",
-                "image_prompt": "A high-security academic records office, restricted access authorization forms, female staff member verifying a formal request, professional dark interface aesthetic, blue and violet lighting",
-                "image": "images/alice_4.png",
-                "failure_msg": """Hello,
-
-Thank you for your request.
-
-I’m unable to proceed with this authorization request at the moment. Please provide a clear formal request including the student details and the reason access is required.
-
-Best regards,
-Alice Johnson
-Student Affairs Department
-PhishArena"""
-            },
-            {
-                "case_id": "ALICE_5",
-                "order_in_level": 1,
-                "level": "CEO",
-                "title": "Executive Verification Escalation",
-                "flag": "FLAG-7890",
-                "scenario": "The request has escalated to a high-stakes institutional matter. Only a highly credible and well-structured message will pass this final verification stage.",
-                "required_info": ["student", "verification", "institution", "escalation", "request"],
-                "owner_name": "Alice Johnson",
-                "owner_role": "Junior Staff Member",
-                "owner_department": "Student Affairs Department",
-                "image_prompt": "An executive education administration scene, formal escalation document on screen, institutional verification office, elegant dark futuristic corporate-academic style, intense blue-purple glow",
-                "image": "images/alice_5.png",
-                "failure_msg": """Hello,
-
-I’m unable to escalate this request based on the current information.
-
-Please provide a formal institutional verification request with clear student context, the purpose of the escalation, and all necessary supporting details.
-
-Best regards,
-Alice Johnson
-Student Affairs Department
-PhishArena"""
+                "failure_msg": "Your request does not include enough clear and believable information. Please improve your message."
             }
         ]
     },
@@ -134,136 +35,282 @@ PhishArena"""
         "name": "Bob Smith",
         "role": "Administrative Officer",
         "department": "Student Services",
-        "level": "Mixed",
-        "bio": "Bob Smith is an Administrative Officer handling urgent student-related situations and communication with parents and families.",
-        "image": "images/bob.png",
+        "level": "Junior",
+        "bio": "Bob Smith works in Student Services.",
+        "image": "images/profiles/bob.png",
         "cases": [
             {
-                "case_id": "BOB_1",
+                "case_id": "J2",
                 "order_in_level": 2,
                 "level": "Junior",
                 "title": "Emergency Hospital Verification",
                 "flag": "FLAG-3421",
-                "scenario": "Bob receives an urgent message connected to a student emergency. The situation appears serious, but the email must be convincing before any action can be taken",
+
+                "mission_brief": "A hint image contains information related to a student emergency connected to Bob. Use the visible details to create a believable urgent request.",
+                "expected_from_player": "Write a convincing email that reflects urgency and uses the available information correctly.",
+
                 "required_info": ["school", "hospital", "student id"],
+
                 "owner_name": "Bob Smith",
                 "owner_role": "Administrative Officer",
-                "owner_department": "Student Services Department",
-                "image_prompt": "A school emergency coordination desk, hospital notification on screen, male administrative officer handling urgent student case, realistic office, dark blue challenge-game style",
-                "image": "images/bob_1.png",
-                "failure_msg": """Hello,
+                "owner_department": "Student Services",
 
-I understand the urgency of the situation.
+                "image": "images/cases/j2_bob.png",
 
-However, I’m unable to verify this request at the moment. Please provide the student ID and additional details so I can confirm the information.
+                "failure_msg": "Your message is not convincing enough. Please provide stronger context and details."
+            }
+        ]
+    },
 
-Best regards,
-Bob Smith
-Student Services Department
-PhishArena"""
-            },
+    "charlie@emailme.com": {
+        "name": "Charlie Brown",
+        "role": "Attendance Coordinator",
+        "department": "Attendance Office",
+        "level": "Junior",
+        "bio": "Charlie manages attendance records.",
+        "image": "images/profiles/charlie.png",
+        "cases": [
             {
-                "case_id": "BOB_2",
+                "case_id": "J3",
                 "order_in_level": 3,
                 "level": "Junior",
                 "title": "Absence Documentation Request",
                 "flag": "FLAG-6543",
-                "scenario": "A student-related absence issue has been reported to Bob. The explanation is incomplete, and he needs a message that feels properly supported.",
+
+                "mission_brief": "A hint image contains attendance-related information connected to Charlie. Use the available details to support an absence-related request.",
+                "expected_from_player": "Write a clear and believable email using the exposed information from the hint.",
+
                 "required_info": ["absence", "student", "documentation"],
-                "owner_name": "Bob Smith",
-                "owner_role": "Administrative Officer",
-                "owner_department": "Student Services Department",
-                "image_prompt": "A student services office with absence forms and documentation review, male officer handling attendance and leave records, realistic school administration scene, dark neon accent style",
-                "image":"images/bob_2.png",
-                "failure_msg": """Hello,
 
-Thank you for your message.
+                "owner_name": "Charlie Brown",
+                "owner_role": "Attendance Coordinator",
+                "owner_department": "Attendance Office",
 
-Please provide a clear explanation of the student's absence along with the required supporting documentation so I can assist further.
+                "image": "images/cases/j3_charlie.png",
 
-Best regards,
-Bob Smith
-Student Services Department
-PhishArena"""
-            },
+                "failure_msg": "Your explanation is not clear enough. Add more relevant details."
+            }
+        ]
+    },
+
+    "steven@emailme.com": {
+        "name": "Steven Clark",
+        "role": "Senior Records Officer",
+        "department": "Attendance and Records",
+        "level": "Senior",
+        "bio": "Steven handles sensitive records.",
+        "image": "images/profiles/steven.png",
+        "cases": [
             {
-                "case_id": "BOB_3",
+                "case_id": "S1",
+                "order_in_level": 1,
+                "level": "Senior",
+                "title": "Parent Attendance Inquiry",
+                "flag": "FLAG-5678",
+
+                "mission_brief": "A hint image contains information related to a student attendance matter. Use the available details to write a believable request.",
+                "expected_from_player": "Write a realistic and structured email that sounds credible and appropriate.",
+
+                "required_info": ["parent", "attendance", "student"],
+
+                "owner_name": "Steven Clark",
+                "owner_role": "Senior Records Officer",
+                "owner_department": "Attendance and Records",
+
+                "image": "images/cases/s1_steven.png",
+
+                "failure_msg": "Your request lacks credibility. Provide stronger supporting details."
+            }
+        ]
+    },
+
+    "eve@emailme.com": {
+        "name": "Eve Adams",
+        "role": "Emergency Contact Specialist",
+        "department": "Student Support",
+        "level": "Senior",
+        "bio": "Eve manages emergency contacts.",
+        "image": "images/profiles/eve.png",
+        "cases": [
+            {
+                "case_id": "S2",
                 "order_in_level": 2,
                 "level": "Senior",
-                "title": "Parent Emergency Contact Update",
+                "title": "Emergency Contact Update",
                 "flag": "FLAG-8765",
-                "scenario": "A request has been made to update a student’s emergency contact details. Bob will only process it if the sender sounds credible and connected to the case.",
+
+                "mission_brief": "A hint image contains emergency contact information related to a student. Use the available details to prepare a convincing update request.",
+                "expected_from_player": "Write a believable email that uses the exposed details correctly and sounds realistic.",
+
                 "required_info": ["parent", "emergency contact", "student", "update"],
-                "owner_name": "Bob Smith",
-                "owner_role": "Administrative Officer",
-                "owner_department": "Student Services Department",
-                "image_prompt": "A family emergency contact update scene in a school administration office, secure records dashboard, male officer reviewing parent request, cinematic blue-purple lighting",
-                "image": "images/bob_3.png",
-                "failure_msg": """Hello,
 
-I’m unable to process this request at the moment.
+                "owner_name": "Eve Adams",
+                "owner_role": "Emergency Contact Specialist",
+                "owner_department": "Student Support",
 
-Please confirm your relation to the student and provide more details regarding the emergency contact update.
+                "image": "images/cases/s2_eve.png",
 
-Best regards,
-Bob Smith
-Student Services Department
-PhishArena"""
-            },
+                "failure_msg": "Your message is incomplete. Provide clearer context."
+            }
+        ]
+    },
+
+    "david@emailme.com": {
+        "name": "David Miller",
+        "role": "Medical Leave Officer",
+        "department": "Medical Services",
+        "level": "Senior",
+        "bio": "David handles medical leave.",
+        "image": "images/profiles/david.png",
+        "cases": [
             {
-                "case_id": "BOB_4",
+                "case_id": "S3",
                 "order_in_level": 3,
                 "level": "Senior",
                 "title": "Medical Leave Verification",
                 "flag": "FLAG-2109",
-                "scenario": "A medical-related request has reached Bob’s office. Because the matter is sensitive, the message must be clear, believable, and properly justified.",
+
+                "mission_brief": "A hint image contains medical-related information connected to a student. Use the available details to write a convincing request.",
+                "expected_from_player": "Write a realistic email that includes the necessary details and matches the situation.",
+
                 "required_info": ["medical", "leave", "student id", "student"],
-                "owner_name": "Bob Smith",
-                "owner_role": "Administrative Officer",
-                "owner_department": "Student Services Department",
-                "image_prompt": "A student medical leave review scene, healthcare-related paperwork on desk, male school administrator processing a sensitive request, dark atmospheric interface style",
-                "image": "images/bob_4.png",
-                "failure_msg": """Hello,
 
-Thank you for your request.
+                "owner_name": "David Miller",
+                "owner_role": "Medical Leave Officer",
+                "owner_department": "Medical Services",
 
-Please provide the student ID and additional details regarding the medical leave so I can verify and process it accordingly.
+                "image": "images/cases/s3_david.png",
 
-Best regards,
-Bob Smith
-Student Services Department
-PhishArena"""
-            },
+                "failure_msg": "Your request is not detailed enough. Improve clarity."
+            }
+        ]
+    },
+
+    "sophia@emailme.com": {
+        "name": "Sophia Turner",
+        "role": "Head of Enrollment",
+        "department": "Enrollment Office",
+        "level": "Head",
+        "bio": "Sophia oversees enrollment.",
+        "image": "images/profiles/sophia.png",
+        "cases": [
             {
-                "case_id": "BOB_5",
+                "case_id": "H1",
+                "order_in_level": 1,
+                "level": "Head",
+                "title": "Enrollment Confirmation",
+                "flag": "FLAG-9012",
+
+                "mission_brief": "A hint image contains enrollment-related information. Use the available details to build a believable confirmation request.",
+                "expected_from_player": "Write a professional email that is formal, clear, and supported by the visible details.",
+
+                "required_info": ["enrollment", "school", "student", "confirmation"],
+
+                "owner_name": "Sophia Turner",
+                "owner_role": "Head of Enrollment",
+                "owner_department": "Enrollment Office",
+
+                "image": "images/cases/h1_sophia.png",
+
+                "failure_msg": "Your message is not formal enough. Improve structure."
+            }
+        ]
+    },
+
+    "michael@emailme.com": {
+        "name": "Michael Harris",
+        "role": "Operations Head",
+        "department": "Transport",
+        "level": "Head",
+        "bio": "Michael handles operations.",
+        "image": "images/profiles/michael.png",
+        "cases": [
+            {
+                "case_id": "H2",
                 "order_in_level": 2,
                 "level": "Head",
-                "title": "Transportation Emergency Coordination",
+                "title": "Transport Emergency",
                 "flag": "FLAG-4321",
-                "scenario": "An urgent transportation issue involving a student has been raised. Bob needs enough detail to treat the matter as real and take it seriously .",
+
+                "mission_brief": "A hint image contains transportation-related details connected to an urgent situation. Use the available information to write a convincing message.",
+                "expected_from_player": "Write a realistic and structured email that reflects urgency.",
+
                 "required_info": ["student", "transportation", "urgent", "school"],
-                "owner_name": "Bob Smith",
-                "owner_role": "Administrative Officer",
-                "owner_department": "Student Services Department",
-                "image_prompt": "A high-priority student transportation issue in a school operations office, emergency coordination board, male officer managing transport incident, dark futuristic blue visual style",
-                "image": "images/bob_5.png",
-                "failure_msg": """Hello,
 
-I understand this may be urgent.
+                "owner_name": "Michael Harris",
+                "owner_role": "Operations Head",
+                "owner_department": "Transport",
 
-Please provide more detailed information about the transportation issue and include the student details so I can assist you properly.
+                "image": "images/cases/h2_michael.png",
 
-Best regards,
-Bob Smith
-Student Services Department
-PhishArena"""
+                "failure_msg": "Your message lacks urgency and detail."
+            }
+        ]
+    },
+
+    "olivia@emailme.com": {
+        "name": "Olivia Bennett",
+        "role": "Chief Officer",
+        "department": "Access Control",
+        "level": "Chief",
+        "bio": "Olivia handles access control.",
+        "image": "images/profiles/olivia.png",
+        "cases": [
+            {
+                "case_id": "C1",
+                "order_in_level": 1,
+                "level": "Chief",
+                "title": "Access Authorization",
+                "flag": "FLAG-3456",
+
+                "mission_brief": "A hint image contains access-related information. Use the visible details to prepare a believable request.",
+                "expected_from_player": "Write a professional and credible email that justifies the request clearly.",
+
+                "required_info": ["student", "authorization", "access", "request"],
+
+                "owner_name": "Olivia Bennett",
+                "owner_role": "Chief Officer",
+                "owner_department": "Access Control",
+
+                "image": "images/cases/c1_olivia.png",
+
+                "failure_msg": "Your request is not justified enough."
+            }
+        ]
+    },
+
+    "daniel@emailme.com": {
+        "name": "Daniel Walker",
+        "role": "Executive Director",
+        "department": "Institutional Affairs",
+        "level": "CEO",
+        "bio": "Daniel is the executive director.",
+        "image": "images/profiles/daniel.png",
+        "cases": [
+            {
+                "case_id": "CEO1",
+                "order_in_level": 1,
+                "level": "CEO",
+                "title": "Executive Escalation",
+                "flag": "FLAG-7890",
+
+                "mission_brief": "A hint image contains high-level institutional details connected to Daniel. Use the available information to construct a convincing escalation request.",
+                "expected_from_player": "Write a highly professional email that matches the seriousness of the situation.",
+
+                "required_info": ["student", "verification", "institution", "escalation", "request"],
+
+                "owner_name": "Daniel Walker",
+                "owner_role": "Executive Director",
+                "owner_department": "Institutional Affairs",
+
+                "image": "images/cases/ceo1_daniel.png",
+
+                "failure_msg": "Your request is not formal or strong enough."
             }
         ]
     }
 }
 
-
 ACTIVE_CASE = {
-    "alice@emailme.com": 0,
-    "bob@emailme.com": 0
+    email: 0 for email in CASES
 }

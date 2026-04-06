@@ -100,6 +100,46 @@
       margin-top: 12px;
     }
 
+    .score-panel {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(25,25,42,0.95), rgba(18,18,32,0.92));
+      border: 1px solid rgba(111,117,255,0.22);
+      box-shadow: 0 0 24px rgba(91, 140, 255, 0.12);
+    }
+    
+    .score-panel h3 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+    
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    
+    .score-card {
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(111,117,255,0.16);
+    }
+    
+    .score-label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    
+    .score-value {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--text);
+    }
+    
     .button-row {
       margin-top: 20px;
       display: flex;
@@ -152,6 +192,73 @@
     .muted {
       color: var(--muted);
     }
+
+    .flag-error {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.10);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      color: #fecaca;
+      font-size: 14px;
+      line-height: 1.6;
+     }
+
+    .flag-panel {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(25,25,42,0.95), rgba(18,18,32,0.92));
+      border: 1px solid rgba(111,117,255,0.22);
+      box-shadow: 0 0 24px rgba(91, 140, 255, 0.12);
+    }
+
+    .flag-panel h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .flag-text {
+      margin-bottom: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .flag-form {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .flag-input {
+      flex: 1;
+      min-width: 260px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      outline: none;
+    }
+
+    .flag-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 10px rgba(91,140,255,0.2);
+    }
+
+    .flag-btn {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .flag-btn:hover {
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -180,7 +287,10 @@
       </div>
 
       <h3>Mission Brief</h3>
-      <p>{{ case.story if case.story else case.scenario }}</p>
+      <p>{{ case.mission_brief }}</p>
+      
+      <h3>Expected from Player</h3>
+      <p>{{ case.expected_from_player }}</p>
 
       {% if case.image %}
         <div class="hint-image">
@@ -213,35 +323,97 @@
           <div>{{ feedback.message }}</div>
         </div>
       {% endif %}
+
+    
+
+      {% if feedback and feedback.status and not case_completed %}
+        <div class="flag-panel">
+          <h3>Unlock Next Case</h3>
+           
+        {% if feedback and feedback.status %}
+          <p class="flag-text">
+            Your email was accepted. Check your inbox, recover the flag, and submit it below to continue.
+          </p>
+        {% else %}
+          <p class="flag-text">
+             Your email was rejected. Review the feedback, try again, and submit the correct flag to continue.
+          </p>
+        {% endif %}
+
+        {% if feedback and not feedback.status %}
+          <div class="flag-error">
+            {{ feedback.message }}
+          </div>
+        {% endif %}
+        {% if feedback and feedback.scores %}
+          <div class="score-panel">
+            <h3>Evaluation Scores</h3>
+            <div class="score-grid">
+              <div class="score-card">
+                <span class="score-label">Professionalism</span>
+                <span class="score-value">{{ feedback.scores.professionalism }}/10</span>
+              </div>
+              <div class="score-card">
+                <span class="score-label">Realism</span>
+                <span class="score-value">{{ feedback.scores.realism }}/10</span>
+              </div>
+              <div class="score-card">
+                <span class="score-label">Completeness</span>
+                <span class="score-value">{{ feedback.scores.completeness }}/10</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+          <form method="POST" action="{{ url_for('submit_flag', case_id=case.case_id) }}" class="flag-form">
+            <input
+              type="text"
+              name="flag"
+              class="flag-input"
+              placeholder="Enter flag (e.g., FLAG-****)"
+              required
+            >
+            <button type="submit" class="flag-btn">Submit Flag</button>
+          </form>
+        </div>
+      {% endif %}
     </section>
   </div>
 
   {% if not case_completed and case_openable %}
   <script>
-    document.getElementById("checkAttemptBtn").addEventListener("click", async function () {
-      const liveMessage = document.getElementById("liveMessage");
-      liveMessage.textContent = "Checking your latest email...";
+  document.getElementById("checkAttemptBtn").addEventListener("click", async function () {
+    const liveMessage = document.getElementById("liveMessage");
+    liveMessage.textContent = "Checking your latest email...";
 
+    try {
+      const response = await fetch("{{ url_for('process_case', case_id=case.case_id) }}", {
+        method: "POST"
+      });
+
+      const text = await response.text();
+
+      let data;
       try {
-        const response = await fetch("{{ url_for('process_case', case_id=case.case_id) }}", {
-          method: "POST"
-        });
-
-        const data = await response.json();
-
-        if (data.ok) {
-          liveMessage.textContent = data.message;
-          setTimeout(() => {
-            window.location.href = data.redirect_url;
-          }, 1200);
-        } else {
-          liveMessage.textContent = data.message || "Something went wrong.";
-        }
-      } catch (error) {
-        liveMessage.textContent = "Failed to process email.";
+        data = JSON.parse(text);
+      } catch (e) {
+        liveMessage.textContent = "Server error: " + text;
+        return;
       }
-    });
-  </script>
+
+      if (data.ok) {
+        liveMessage.textContent = data.message;
+        setTimeout(() => {
+          window.location.href = data.redirect_url;
+        }, 1200);
+      } else {
+        liveMessage.textContent = data.message || "Something went wrong.";
+      }
+    } catch (error) {
+      liveMessage.textContent = "Failed to process email: " + error;
+    }
+  });
+</script>
   {% endif %}
 </body>
 </html>

@@ -301,6 +301,53 @@
     </section>
 
     <section class="section">
+     <h3>Performance Analytics</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>{{ analytics.total_attempts }}</h3>
+          <p>Total Attempts</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ analytics.total_success }}</h3>
+          <p>Successful Attempts</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ analytics.total_failed }}</h3>
+          <p>Failed Attempts</p>
+        </div>
+      </div>
+    
+      <div class="stats-grid" style="margin-top: 18px;">
+        <div class="stat-card">
+          <h3>{{ analytics.avg_professionalism }}/10</h3>
+          <p>Avg Professionalism</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ analytics.avg_realism }}/10</h3>
+          <p>Avg Realism</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ analytics.avg_completeness }}/10</h3>
+          <p>Avg Completeness</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Performance by Level</h3>
+    
+      <div class="levels-grid">
+        {% for level_name, stat in analytics.level_stats.items() %}
+          <div class="card">
+            <h4>{{ level_name }}</h4>
+            <p><strong>Attempts:</strong> {{ stat.attempts }}</p>
+            <p><strong>Successes:</strong> {{ stat.success }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section">
       <h3>Level Progress</h3>
       <div class="levels-grid">
         {% for lvl in progress.levels %}
@@ -335,39 +382,6 @@
       {% endif %}
     </section>
 
-    <section class="section">
-      <h3>Current Active Cases</h3>
-      {% if active_cases %}
-        <div class="cases-grid">
-          {% for case in active_cases %}
-            <div class="card">
-              <h4>{{ case.title }}</h4>
-              <p>
-                <strong>Target:</strong> {{ case.target_name }}<br>
-                <strong>Level:</strong> {{ case.level }}<br>
-                <strong>Case ID:</strong> {{ case.case_id }}
-              </p>
-
-              <div class="badge-row">
-                {% if case.unlocked %}
-                  <span class="badge unlocked">Available</span>
-                {% else %}
-                  <span class="badge locked">Locked</span>
-                {% endif %}
-              </div>
-
-              {% if case.image %}
-                <div class="case-image">
-                  <img src="{{ url_for('static', filename=case.image) }}" alt="{{ case.title }}">
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <p class="empty">No active cases available.</p>
-      {% endif %}
-    </section>
 
     <div class="footer">
       PhishArena • Dashboard
