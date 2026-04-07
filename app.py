@@ -22,13 +22,19 @@ from mail.mail_reader import get_latest_email
 from mail.smtp_sender import send_email_smtp
 from llm.checker import check_email_against_case
 
+import webbrowser
+import threading
+
+
 app = Flask(__name__)
 app.secret_key="stoe"
 
 PLAYER_EMAIL = "player1@emailme.com"
 PLAYER_USERNAME = "player1"
 
-
+def open_browser():
+    webbrowser.open_new("http://127.0.0.1:5000/")
+ 
 @app.route("/")
 def home():
     log_rows = read_game_logs()
@@ -379,4 +385,5 @@ def submit_flag(case_id):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    threading.Timer(1.0, open_browser).start()
+    app.run(debug=True)

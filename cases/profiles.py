@@ -1,7 +1,7 @@
 CASES = {
 
     "alice@emailme.com": {
-        "name": "Alice Johnson",
+        "name": "Alice Johnson <alice@emailme.com>",
         "role": "Junior Staff Member",
         "department": "Student Affairs",
         "level": "Junior",
@@ -15,10 +15,13 @@ CASES = {
                 "title": "School ID Verification",
                 "flag": "FLAG-1234",
 
-                "mission_brief": "A hint image contains exposed school-related information connected to Alice. Use the available details to write a believable verification email.",
-                "expected_from_player": "Write a realistic and convincing email using the exposed details from the hint.",
+                "mission_brief": "You are handling a routine school verification process. A student needs help confirming their identity to continue an internal request. Use the hints to write a believable email that asks for verification in a natural way.",
+                "expected_from_player": "Write a realistic email that uses the available details to request verification clearly and professionally.",
 
-                "required_info": ["12345", "school"],
+                "required_info": [
+                    ["12345"],
+                    ["school", "institution", "campus"]
+                ],
 
                 "owner_name": "Alice Johnson",
                 "owner_role": "Junior Staff Member",
@@ -32,7 +35,7 @@ CASES = {
     },
 
     "bob@emailme.com": {
-        "name": "Bob Smith",
+        "name": "Bob Smith <bob@emailme.com>",
         "role": "Administrative Officer",
         "department": "Student Services",
         "level": "Junior",
@@ -46,10 +49,14 @@ CASES = {
                 "title": "Emergency Hospital Verification",
                 "flag": "FLAG-3421",
 
-                "mission_brief": "A hint image contains information related to a student emergency connected to Bob. Use the visible details to create a believable urgent request.",
-                "expected_from_player": "Write a convincing email that reflects urgency and uses the available information correctly.",
+                "mission_brief": "An unexpected emergency has occurred involving a student connected to the school, and the case now involves hospital follow-up. You need to send a message that reflects the urgency of the situation while using the details revealed in the available hint materials.",
+                "expected_from_player": "Write a convincing email that sounds urgent, realistic, and supported by the available case details.",
 
-                "required_info": ["school", "hospital", "student id"],
+                "required_info": [
+                    ["school", "institution", "campus"],
+                    ["hospital", "medical", "clinic", "emergency"],
+                    ["student id", "st id", "student number", "id number"]
+                ],
 
                 "owner_name": "Bob Smith",
                 "owner_role": "Administrative Officer",
@@ -63,7 +70,7 @@ CASES = {
     },
 
     "charlie@emailme.com": {
-        "name": "Charlie Brown",
+        "name": "Charlie Brown <charlie@emailme.com>",
         "role": "Attendance Coordinator",
         "department": "Attendance Office",
         "level": "Junior",
@@ -77,10 +84,14 @@ CASES = {
                 "title": "Absence Documentation Request",
                 "flag": "FLAG-6543",
 
-                "mission_brief": "A hint image contains attendance-related information connected to Charlie. Use the available details to support an absence-related request.",
-                "expected_from_player": "Write a clear and believable email using the exposed information from the hint.",
+                "mission_brief": "A student has missed classes and the absence now needs to be formally supported. Some relevant information is exposed in the case materials, and you need to use it to request the proper records. The message should make sense in an attendance-related situation and refer naturally to the missing documentation.",
+                "expected_from_player": "Write a clear and believable email that requests documentation connected to a student absence.",
 
-                "required_info": ["absence", "student", "documentation"],
+                "required_info": [
+                    ["absence", "absent", "missed class", "attendance issue"],
+                    ["student", "learner", "pupil"],
+                    ["documentation", "document", "record", "proof"]
+                ],
 
                 "owner_name": "Charlie Brown",
                 "owner_role": "Attendance Coordinator",
@@ -94,7 +105,7 @@ CASES = {
     },
 
     "steven@emailme.com": {
-        "name": "Steven Clark",
+        "name": "Steven Clark <steven@emailme.com>",
         "role": "Senior Records Officer",
         "department": "Attendance and Records",
         "level": "Senior",
@@ -108,10 +119,14 @@ CASES = {
                 "title": "Parent Attendance Inquiry",
                 "flag": "FLAG-5678",
 
-                "mission_brief": "A hint image contains information related to a student attendance matter. Use the available details to write a believable request.",
-                "expected_from_player": "Write a realistic and structured email that sounds credible and appropriate.",
+                "mission_brief": "A parent has raised concerns about a student attendance record and is waiting for a response. Before anything can be clarified, the attendance details need to be checked carefully. Some supporting information is available in the case hints. Use that context to write a structured email that fits this situation.",
+                "expected_from_player": "Write a realistic and organized email that refers to the parent, the student, and the attendance issue in a believable way.",
 
-                "required_info": ["parent", "attendance", "student"],
+                "required_info": [
+                    ["parent", "guardian", "mother", "father"],
+                    ["attendance", "attendance record", "absence", "presence"],
+                    ["student", "learner", "pupil"]
+                ],
 
                 "owner_name": "Steven Clark",
                 "owner_role": "Senior Records Officer",
@@ -125,7 +140,7 @@ CASES = {
     },
 
     "eve@emailme.com": {
-        "name": "Eve Adams",
+        "name": "Eve Adams <eve@emailme.com>",
         "role": "Emergency Contact Specialist",
         "department": "Student Support",
         "level": "Senior",
@@ -139,10 +154,15 @@ CASES = {
                 "title": "Emergency Contact Update",
                 "flag": "FLAG-8765",
 
-                "mission_brief": "A hint image contains emergency contact information related to a student. Use the available details to prepare a convincing update request.",
-                "expected_from_player": "Write a believable email that uses the exposed details correctly and sounds realistic.",
+                "mission_brief": "A recent request has been made to change a student’s emergency contact details.The information must be updated carefully. Use the details shown in the case materials to prepare a message that sounds natural and fits a student support context.",
+                "expected_from_player": "Write a believable email that requests an emergency contact update and includes the relevant student and parent context.",
 
-                "required_info": ["parent", "emergency contact", "student", "update"],
+                "required_info": [
+                    ["parent", "guardian", "mother", "father"],
+                    ["emergency contact", "contact number", "contact details", "emergency number"],
+                    ["student", "learner", "pupil"],
+                    ["update", "change", "modify", "revise"]
+                ],
 
                 "owner_name": "Eve Adams",
                 "owner_role": "Emergency Contact Specialist",
@@ -156,7 +176,7 @@ CASES = {
     },
 
     "david@emailme.com": {
-        "name": "David Miller",
+        "name": "David Miller <david@emailme.com>",
         "role": "Medical Leave Officer",
         "department": "Medical Services",
         "level": "Senior",
@@ -170,10 +190,15 @@ CASES = {
                 "title": "Medical Leave Verification",
                 "flag": "FLAG-2109",
 
-                "mission_brief": "A hint image contains medical-related information connected to a student. Use the available details to write a convincing request.",
-                "expected_from_player": "Write a realistic email that includes the necessary details and matches the situation.",
+                "mission_brief": "A student has submitted a request related to medical leave, but the details must be confirmed before it can move forward. The case materials are their use them to write a realistic message that fits a medical services workflow.",
+                "expected_from_player": "Write a clear and believable email that refers to medical leave, the student, and the identification details needed for verification.",
 
-                "required_info": ["medical", "leave", "student id", "student"],
+                "required_info": [
+                    ["medical", "health", "hospital", "clinic"],
+                    ["leave", "medical leave", "absence leave", "time off"],
+                    ["student id", "st id", "student number", "id number"],
+                    ["student", "learner", "pupil"]
+                ],
 
                 "owner_name": "David Miller",
                 "owner_role": "Medical Leave Officer",
@@ -187,7 +212,7 @@ CASES = {
     },
 
     "sophia@emailme.com": {
-        "name": "Sophia Turner",
+        "name": "Sophia Turner <sophia@emailme.com>",
         "role": "Head of Enrollment",
         "department": "Enrollment Office",
         "level": "Head",
@@ -201,10 +226,15 @@ CASES = {
                 "title": "Enrollment Confirmation",
                 "flag": "FLAG-9012",
 
-                "mission_brief": "A hint image contains enrollment-related information. Use the available details to build a believable confirmation request.",
-                "expected_from_player": "Write a professional email that is formal, clear, and supported by the visible details.",
+                "mission_brief": "An enrollment-related process is on hold until a student’s status can be confirmed. The case materials reveal useful details connected to the student and the institution. Your message should reflect a formal enrollment situation and ask for confirmation in a professional, believable way.",
+                "expected_from_player": "Write a professional email requesting confirmation of a student’s enrollment status using the visible case details.",
 
-                "required_info": ["enrollment", "school", "student", "confirmation"],
+                "required_info": [
+                    ["enrollment", "registration", "admission"],
+                    ["school", "institution", "campus"],
+                    ["student", "learner", "pupil"],
+                    ["confirmation", "confirm", "verification", "validate"]
+                ],
 
                 "owner_name": "Sophia Turner",
                 "owner_role": "Head of Enrollment",
@@ -218,7 +248,7 @@ CASES = {
     },
 
     "michael@emailme.com": {
-        "name": "Michael Harris",
+        "name": "Michael Harris <michael@emailme.com>",
         "role": "Operations Head",
         "department": "Transport",
         "level": "Head",
@@ -232,10 +262,15 @@ CASES = {
                 "title": "Transport Emergency",
                 "flag": "FLAG-4321",
 
-                "mission_brief": "A hint image contains transportation-related details connected to an urgent situation. Use the available information to write a convincing message.",
-                "expected_from_player": "Write a realistic and structured email that reflects urgency.",
+                "mission_brief": "An urgent transportation issue involving a student has been reported and needs immediate attention. The available hints contain important details about the student and the school context. Use that information to write a message that sounds urgent, realistic, and suitable for an operations-related emergency.",
+                "expected_from_player": "Write a structured email that communicates urgency and references the transportation issue clearly.",
 
-                "required_info": ["student", "transportation", "urgent", "school"],
+                "required_info": [
+                    ["student", "learner", "pupil"],
+                    ["transportation", "transport", "bus", "pickup"],
+                    ["urgent", "immediate", "as soon as possible", "emergency"],
+                    ["school", "institution", "campus"]
+                ],
 
                 "owner_name": "Michael Harris",
                 "owner_role": "Operations Head",
@@ -249,7 +284,7 @@ CASES = {
     },
 
     "olivia@emailme.com": {
-        "name": "Olivia Bennett",
+        "name": "Olivia Bennett <olivia@emailme.com>",
         "role": "Chief Officer",
         "department": "Access Control",
         "level": "Chief",
@@ -263,10 +298,15 @@ CASES = {
                 "title": "Access Authorization",
                 "flag": "FLAG-3456",
 
-                "mission_brief": "A hint image contains access-related information. Use the visible details to prepare a believable request.",
-                "expected_from_player": "Write a professional and credible email that justifies the request clearly.",
+                "mission_brief": "A request is being prepared to obtain authorized access to a student-related record or system. The request needs to sound justified and professional, and the case hints contain details that should support that purpose. Build a message that clearly explains the access request and why it needs approval.",
+                "expected_from_player": "Write a professional email that clearly asks for access authorization and uses the available case context effectively.",
 
-                "required_info": ["student", "authorization", "access", "request"],
+                "required_info": [
+                    ["student", "learner", "pupil"],
+                    ["authorization", "authorisation", "approval", "permission"],
+                    ["access", "entry", "system access", "record access"],
+                    ["request", "ask", "submit", "application"]
+                ],
 
                 "owner_name": "Olivia Bennett",
                 "owner_role": "Chief Officer",
@@ -280,7 +320,7 @@ CASES = {
     },
 
     "daniel@emailme.com": {
-        "name": "Daniel Walker",
+        "name": "Daniel Walker <daniel@emailme.com>",
         "role": "Executive Director",
         "department": "Institutional Affairs",
         "level": "CEO",
@@ -294,10 +334,16 @@ CASES = {
                 "title": "Executive Escalation",
                 "flag": "FLAG-7890",
 
-                "mission_brief": "A hint image contains high-level institutional details connected to Daniel. Use the available information to construct a convincing escalation request.",
-                "expected_from_player": "Write a highly professional email that matches the seriousness of the situation.",
+                "mission_brief": "A high-priority issue involving student verification has been escalated within the institution and now requires executive attention. The case materials provide useful details that can support the message. Your task is to write a highly professional email that reflects the seriousness of the situation and clearly communicates the escalation request.",
+                "expected_from_player": "Write a strong and professional email that refers to the institution, the student verification matter, and the escalation request appropriately.",
 
-                "required_info": ["student", "verification", "institution", "escalation", "request"],
+                "required_info": [
+                    ["student", "learner", "pupil"],
+                    ["verification", "confirm", "validation", "check"],
+                    ["institution", "school", "organization", "campus"],
+                    ["escalation", "escalate", "urgent escalation", "raised issue"],
+                    ["request", "submission", "inquiry", "ask"]
+                ],
 
                 "owner_name": "Daniel Walker",
                 "owner_role": "Executive Director",

@@ -4,113 +4,238 @@ from llm.llm_handler import ask_llm
 
 
 def normalize(text):
-    return text.lower().strip()
+    """
+    Normalize text for safer matching.
+    """
+    if not text:
+        return ""
+
+    text = text.lower().strip()
+    text = re.sub(r"[_\-]+", " ", text)       # student-id -> student id
+    text = re.sub(r"[^\w\s]", " ", text)      # remove punctuation
+    text = re.sub(r"\s+", " ", text).strip()  # normalize spaces
+    return text
 
 
 def check_required_info(email_text, required_info):
+    """
+    Supports:
+    1) Old format:
+       ["school", "hospital", "student id"]
+
+    2) Grouped format:
+       [
+           ["school", "institution", "campus"],
+           ["hospital", "clinic", "medical"],
+           ["student id", "st id", "student number"]
+       ]
+
+    Rules:
+    - string => must appear
+    - list => at least one phrase from the list must appear
+    """
     missing = []
-    email_text = normalize(email_text)
+    normalized_email = normalize(email_text)
 
     for item in required_info:
-        if item.lower() not in email_text:
-            missing.append(item)
+        if isinstance(item, str):
+            if normalize(item) not in normalized_email:
+                missing.append(item)
+
+        elif isinstance(item, list):
+            found = False
+            for phrase in item:
+                if normalize(phrase) in normalized_email:
+                    found = True
+                    break
+            if not found:
+                missing.append(" / ".join(item))
 
     return missing
 
 
-def build_prompt(email_text, case):
+def score_professionalism(email_text):
+    """
+    Simple local professionalism score.
+    """
+    score = 4
+    lowered = email_text.lower()
+
+    greetings = ["hi ", "hello ", "dear "]
+    closings = ["best regards", "regards", "sincerely", "thank you"]
+    polite_words = ["please", "kindly", "appreciate", "thank you"]
+
+    if any(g in lowered for g in greetings):
+        score += 2
+
+    if any(c in lowered for c in closings):
+        score += 2
+
+    if any(w in lowered for w in polite_words):
+        score += 1
+
+    if len(email_text.split()) >= 35:
+        score += 1
+
+    return min(score, 10)
+
+
+def score_realism(email_text):
+    """
+    Simple local realism score.
+    """
+    score = 4
+    lowered = email_text.lower()
+
+    if "subject:" not in lowered:
+        score += 1
+
+    if any(word in lowered for word in ["please", "assist", "confirm", "verify", "request"]):
+        score += 2
+
+    if len(email_text.split()) >= 30:
+        score += 2
+
+    if "\n" in email_text:
+        score += 1
+
+    return min(score, 10)
+
+
+def score_completeness(email_text, required_info):
+    """
+    Completeness based on requirement coverage.
+    """
+    total = len(required_info)
+    if total == 0:
+        return 10
+
+    missing = check_required_info(email_text, required_info)
+    matched = total - len(missing)
+
+    score = round((matched / total) * 10, 1)
+    return max(0, min(score, 10))
+
+
+def build_prompt(email_text, case, local_scores):
+    """
+    AI prompt used only as a refinement layer.
+    """
     return f"""
-You are a cybersecurity training evaluator.
+You are evaluating a training-game email submission.
 
-A player is writing a social engineering email.
+Case mission:
+{case.get('mission_brief', '')}
 
---- SCENARIO ---
-{case['mission_brief']}
+Expected from player:
+{case.get('expected_from_player', '')}
 
---- REQUIRED INFORMATION ---
-{case['required_info']}
+Required information:
+{case.get('required_info', [])}
 
---- PLAYER EMAIL ---
+Player email:
 {email_text}
 
---- TASK ---
-Evaluate the email based on:
+Local pre-scores:
+- professionalism: {local_scores['professionalism']}
+- realism: {local_scores['realism']}
+- completeness: {local_scores['completeness']}
 
-1. Professionalism (formal tone, structured writing)
-2. Realism (believability, logical request)
-3. Completeness (includes required context)
+Instructions:
+- Be fair and game-friendly.
+- Accept similar wording, not only exact phrases.
+- Do not be overly strict.
+- If the email is reasonable for a student training game, score it fairly.
+- Keep scores between 0 and 10.
+- Return ONLY valid JSON.
+- Do not use markdown.
+- Do not add any explanation outside the JSON.
 
---- SCORING ---
-Give each score from 0 to 10.
-
---- OUTPUT FORMAT (STRICT JSON ONLY) ---
+Return exactly:
 {{
-    "status": true or false,
-    "scores": {{
-        "professionalism": number,
-        "realism": number,
-        "completeness": number
-    }},
-    "reason": "short explanation"
+  "status": true,
+  "scores": {{
+    "professionalism": 0,
+    "realism": 0,
+    "completeness": 0
+  }},
+  "reason": "short explanation"
 }}
 """
 
 
 def extract_json(text):
+    """
+    Try hard to extract JSON from LLM output safely.
+    """
+    if not text:
+        return None
+
+    text = text.strip()
+
+    # Remove markdown fences if present
+    text = text.replace("```json", "").replace("```", "").strip()
+
     try:
         return json.loads(text)
-    except:
-        match = re.search(r"\{.*\}", text, re.DOTALL)
-        if match:
-            return json.loads(match.group())
+    except Exception:
+        pass
+
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if match:
+        candidate = match.group().strip()
+        try:
+            return json.loads(candidate)
+        except Exception:
+            pass
+
     return None
 
 
-def check_email_against_case(email_text, case):
-    # Step 1: basic length check
-    if len(email_text.split()) < 20:
-        return {
-            "status": False,
-            "msg": "Your email is too short. Please write a more complete and professional message.",
-            "scores": None
-        }
+def safe_float(value, default=0.0):
+    try:
+        return float(value)
+    except Exception:
+        return default
 
-    # Step 2: required info check
-    missing = check_required_info(email_text, case["required_info"])
-    if missing:
-        return {
-            "status": False,
-            "msg": f"Missing important details: {', '.join(missing)}.",
-            "scores": None
-        }
 
-    # Step 3: AI scoring
-    prompt = build_prompt(email_text, case)
-    llm_response = ask_llm(prompt)
+def merge_scores(local_scores, ai_scores):
+    """
+    Blend local stable scores with AI scores.
+    AI can refine, but not fully control the result.
+    """
+    ai_prof = safe_float(ai_scores.get("professionalism"), local_scores["professionalism"])
+    ai_real = safe_float(ai_scores.get("realism"), local_scores["realism"])
+    ai_comp = safe_float(ai_scores.get("completeness"), local_scores["completeness"])
 
-    result = extract_json(llm_response)
+    final_scores = {
+        "professionalism": round((local_scores["professionalism"] * 0.6) + (ai_prof * 0.4), 1),
+        "realism": round((local_scores["realism"] * 0.6) + (ai_real * 0.4), 1),
+        "completeness": round((local_scores["completeness"] * 0.7) + (ai_comp * 0.3), 1),
+    }
 
-    if not result:
-        return {
-            "status": False,
-            "msg": "Evaluation failed. Try again.",
-            "scores": None
-        }
+    return final_scores
 
-    scores = result.get("scores", {})
-    professionalism = scores.get("professionalism", 0)
-    realism = scores.get("realism", 0)
-    completeness = scores.get("completeness", 0)
 
-    avg_score = (professionalism + realism + completeness) / 3
+def get_pass_threshold(case):
+    """
+    Level-based thresholds.
+    """
+    level = case.get("level", "Junior")
 
-    # PASS condition
-    passed = avg_score >= 6
+    thresholds = {
+        "Junior": 5.0,
+        "Senior": 5.5,
+        "Head": 6.0,
+        "Chief": 6.5,
+        "CEO": 7.0,
+    }
 
-    if passed:
-        return {
-            "status": True,
-            "msg": f"""Hello,
+    return thresholds.get(level, 6.0)
+
+
+def build_success_message(case):
+    return f"""Hello,
 
 Your request has been verified successfully.
 
@@ -118,18 +243,16 @@ FLAG: {case['flag']}
 
 Best regards,
 {case['owner_name']}
-PhishArena""",
-            "scores": scores
-        }
-    else:
-        return {
-            "status": False,
-            "msg": f"""Hello,
+PhishArena"""
+
+
+def build_failure_message(case, reason, professionalism, realism, completeness):
+    return f"""Hello,
 
 Your request was not convincing enough.
 
 Reason:
-{result.get("reason", "Improve professionalism and realism.")}
+{reason}
 
 Scores:
 - Professionalism: {professionalism}/10
@@ -140,6 +263,108 @@ Please improve your email and try again.
 
 Best regards,
 {case['owner_name']}
-PhishArena""",
-            "scores": scores
+PhishArena"""
+
+
+def check_email_against_case(email_text, case):
+    """
+    Main evaluation flow:
+    1. Basic length check
+    2. Required info check
+    3. Stable local scoring
+    4. Optional AI refinement
+    5. Safe final decision
+    """
+    try:
+        # Step 1: basic length
+        if len(email_text.split()) < 20:
+            return {
+                "status": False,
+                "msg": "Your email is too short. Please write a more complete and professional message.",
+                "scores": None
+            }
+
+        # Step 2: required info
+        missing = check_required_info(email_text, case.get("required_info", []))
+        if missing:
+            return {
+                "status": False,
+                "msg": f"Missing important details: {', '.join(missing)}.",
+                "scores": None
+            }
+
+        # Step 3: stable local scoring
+        local_scores = {
+            "professionalism": score_professionalism(email_text),
+            "realism": score_realism(email_text),
+            "completeness": score_completeness(email_text, case.get("required_info", []))
+        }
+
+        final_scores = local_scores.copy()
+        final_reason = "Local evaluation used."
+        ai_status = True
+
+        # Step 4: optional AI refinement
+        try:
+            prompt = build_prompt(email_text, case, local_scores)
+            llm_response = ask_llm(prompt)
+
+            print("\n[DEBUG] Raw LLM response:\n", llm_response)
+
+            result = extract_json(llm_response)
+
+            if result:
+                ai_scores = result.get("scores", {})
+                final_scores = merge_scores(local_scores, ai_scores)
+                final_reason = result.get("reason", "AI-assisted evaluation used.")
+                ai_status = result.get("status", True)
+            else:
+                print("[DEBUG] Invalid AI JSON. Falling back to local evaluation.")
+
+        except Exception as ai_error:
+            print("[DEBUG] AI evaluation error:", str(ai_error))
+            # keep local_scores
+
+        professionalism = safe_float(final_scores.get("professionalism"), 0)
+        realism = safe_float(final_scores.get("realism"), 0)
+        completeness = safe_float(final_scores.get("completeness"), 0)
+
+        avg_score = round((professionalism + realism + completeness) / 3, 2)
+        required_avg = get_pass_threshold(case)
+
+        passed = avg_score >= required_avg and ai_status is not False
+
+        if passed:
+            return {
+                "status": True,
+                "msg": build_success_message(case),
+                "scores": {
+                    "professionalism": professionalism,
+                    "realism": realism,
+                    "completeness": completeness
+                }
+            }
+
+        return {
+            "status": False,
+            "msg": build_failure_message(
+                case,
+                final_reason,
+                professionalism,
+                realism,
+                completeness
+            ),
+            "scores": {
+                "professionalism": professionalism,
+                "realism": realism,
+                "completeness": completeness
+            }
+        }
+
+    except Exception as e:
+        print("[ERROR] check_email_against_case:", str(e))
+        return {
+            "status": False,
+            "msg": "Temporary evaluation error. Please try again.",
+            "scores": None
         }
