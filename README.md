@@ -4,201 +4,179 @@
 
 PhishArena is an interactive cybersecurity training platform designed to help users understand how email communication can appear legitimate or suspicious.
 
-The system trains users to write structured, credible emails while showing how incomplete, vague, or misleading messages can resemble phishing-like behavior.
+The system trains users to write structured, credible emails while demonstrating how incomplete, vague, or misleading messages can resemble phishing behavior.
 
 PhishArena combines professional email writing practice with phishing-awareness training through a case-based game environment powered by real email infrastructure.
 
 ---
 
-## 🚀 Quick Start (Setup)  
+## 🚀 Quick Start (Setup)
 
 ### 1. Clone
+
 ```bash
 git clone https://github.com/Aldana-althawadi/PhishArena-_Game.git
 cd PhishArena
 ```
-### 2. Create venv
+
+### 2. Create virtual environment
+
 ```bash
 python3 -m venv env
 source env/bin/activate
 ```
-### 3. Install
+
+### 3. Install dependencies
+
 ```bash
 pip install flask
 ```
-### 4. Run
+
+### 4. Run the application
+
 ```bash
 python3 app.py
 ```
-The web interface will be available at: http://127.0.0.1:5000
+
+The web interface will open at:
+👉 http://127.0.0.1:5000
 
 ---
 
 ## 📧 Thunderbird Configuration
-PhishArena uses a real email environment. You must configure Thunderbird to send and receive emails through the local mail server.
 
-### - Account Example
-- Email: `player1@emailme.com`
-- Username: player1
-- Password: pass123
+PhishArena uses a real email system (Postfix + Dovecot).
+You must configure Thunderbird to send and receive emails.
 
+### Example Account
 
-### - 📥 Incoming Mail (IMAP - Dovecot)
-- Hostname: localhost
-- Server: `127.0.0.1`
-- Port: `143`
-- Connection Security: None
-- Authentication Method: Normal password
+* Email: `player1@emailme.com`
+* Username: `player1`
+* Password: `pass123`
 
+### 📥 Incoming Mail (IMAP - Dovecot)
 
-### - 📤 Outgoing Mail (SMTP - Postfix)
-- Hostname: localhost
-- Server: `127.0.0.1`
-- Port: `25`
-- Connection Security: None
-- Authentication Method: None
+* Server: `127.0.0.1`
+* Port: `143`
+* Security: None
+* Authentication: Normal password
+
+### 📤 Outgoing Mail (SMTP - Postfix)
+
+* Server: `127.0.0.1`
+* Port: `25`
+* Security: None
+* Authentication: None
 
 ---
+
 ## 🎮 How It Works
-PhishArena is a case-based interactive game where users complete email scenarios to progress through levels.
+
+PhishArena is a case-based interactive game where users complete email scenarios to progress.
 
 ### Game Flow
 
-1. **Select a Level**  
-   Navigate to the Levels page and choose an unlocked level.
+1. Select a level
+2. Open a case
+3. Read the mission brief + hints
+4. Send an email using Thunderbird
+5. Click **"Check My Attempt"**
+6. Receive evaluation + feedback
+7. If successful → receive a FLAG via email
+8. Submit the flag to complete the case
 
-2. **Open a Case**  
-   Each level contains multiple cases. Open the first available case.
+---
 
-3. **Read the Mission Brief**  
-   Review the scenario, profile details, and image hints carefully.
+## 🏁 Flag System
 
-4. **Compose an Email**  
-   Use Thunderbird to write and send your email to the target (e.g., Alice or Bob).  
-   Your message must be clear, credible, and well-supported.
+* Flags are **NOT shown in the UI**
+* Flags are sent **ONLY via email reply**
+* Players must:
 
-5. **Check Your Attempt**  
-   Click **"Check My Attempt"** on the case page.  
-   The system retrieves your latest email and evaluates it.
+  * check inbox
+  * copy the flag
+  * submit it in the game
 
-6. **Receive Feedback**  
-   - If your message is **legitimate**, the case is completed and you progress  
-   - If your message is **suspicious**, you must revise and resend
+---
 
-7. **Progress Through Levels**  
-   Complete all cases in a level to unlock the next level.
+## 📊 Evaluation Logic
 
+Each email is evaluated using AI based on:
 
-### 🧠 Evaluation Logic
+* Professionalism
+* Realism
+* Completeness
 
-Your email is evaluated based on:
-
-- Clarity
-- Completeness
-- Credibility
-
-A strong message appears legitimate.  
-A weak or misleading message is treated as suspicious (phishing-like behavior).
+A passing score allows progression.
+A weak email requires improvement and retry.
 
 ---
 
 ## 🧠 Core Concept
-PhishArena is built on the idea that the difference between legitimate communication and phishing often lies in **how information is presented**, not just what is requested.
 
-Instead of directly teaching users to detect phishing, the system trains them to:
+PhishArena teaches that phishing is not only about malicious links —
+it is about **how communication is structured**.
 
-- Write clear and structured emails  
-- Provide sufficient and relevant information  
-- Understand how missing or weak details reduce credibility  
+Users learn to:
 
-### ✔ Legitimate Email
-
-A message is considered legitimate when it is:
-
-- Clear and well-structured  
-- Supported with enough relevant details  
-- Consistent and believable  
-- Contextually appropriate  
-
-
-### ⚠ Suspicious / Phishing-like Email
-
-A message is treated as suspicious when it is:
-
-- Vague or incomplete  
-- Missing important supporting details  
-- Misleading or poorly justified  
-- Lacking credibility or context  
-
-Through this approach, users learn both **professional communication skills** and how **phishing-like messages behave**, by experiencing how weak or misleading emails fail in realistic scenarios.
+* Write clear and structured emails
+* Provide sufficient supporting information
+* Understand how weak communication resembles phishing
 
 ---
+
 ## 📁 Project Structure
+
 phishArena/
 
-- app.py  
-  Main Flask application (routes, logic)
+* app.py → Main Flask application
+* cases/
 
-- cases/  
-  - profiles.py → All cases (levels, scenarios, required info)  
-  - helpers.py → Case navigation (get_active_case, advance_case)  
+  * profiles.py → Cases & scenarios
+  * helpers.py → Case logic
+* mail/
 
-- mail/  
-  - mail_reader.py → Reads emails from Maildir with filtering  
-  - smtp_sender.py → Sends AI responses via SMTP  
+  * mail_reader.py → Reads Maildir
+  * smtp_sender.py → Sends responses
+* llm/
 
-- llm/  
-  - checker.py → Main validation logic  
-  - pipeline.py → Processing pipeline  
-  - llm_handler.py → LLM interaction  
-  - rag.py → Retrieval (RAG)  
-  - reply_generator.py → Generates responses  
-  - post_processor.py → Output validation  
-  - utils.py → Helper functions  
-  - logger.py → Logging  
-  - ... → Additional supporting modules  
-
-- logs/  
-  - game_logger.py → Stores player results  
-
-- templates/  
-  - index.html → Home page  
-  - levels.html → Levels page  
-  - case.html → Case gameplay  
-  - dashboard.html → Progress  
-  - rules.html → Rules  
-  - profiles.html → Target profiles  
-
-- static/  
-  - images/ → Hints, avatars, logos  
-
-- env/  
-  Virtual environment (not pushed to GitHub)
+  * checker.py → Validation logic
+  * pipeline.py → AI pipeline
+  * rag.py → Retrieval system
+  * reply_generator.py → Response generation
+  * post_processor.py → Output validation
+* logs/ → Game logs
+* templates/ → HTML pages
+* static/ → Images & assets
+* env/ → Virtual environment
 
 ---
 
 ## 👥 Contributors
 
-- Aldana Althawadi
-- Ghufran Sheikh
-- Haya Alkaabi  
-
+* Aldana Althawadi
+* Ghufran Sheikh
+* Haya Alkaabi
 
 ---
 
 ## 🏆 Academic Context
-This project was developed as a final-year cybersecurity project focused on combining practical email communication training with phishing-awareness concepts using real-world infrastructure.
-University of Bahrain, College of Information Technology 2026
+
+This project was developed as a final-year cybersecurity project at:
+
+University of Bahrain
+College of Information Technology – 2026
 
 ---
 
 ## 📌 Notes
 
-This system is designed for **educational purposes only**.  
-All scenarios are simulated within a controlled environment.
+* This system is for **educational use only**
+* All scenarios are simulated
+* No real phishing activity is performed
 
 ---
 
-# 🎯 PhishArena  
-Train smart. Think deeper. Communicate better.
+# 🎯 PhishArena
 
+Train smart. Think deeper. Communicate better.
