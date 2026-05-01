@@ -2,11 +2,11 @@
 
 ## 🎯 Project Objective
 
-PhishArena is an interactive cybersecurity training platform designed to help users understand how email communication can appear legitimate or suspicious.
+PhishArena is an interactive cybersecurity training platform designed to simulate real-world phishing scenarios through structured email communication.
 
-The system trains users to write structured, credible emails while demonstrating how incomplete, vague, or misleading messages can resemble phishing behavior.
+The system trains users to craft professional, realistic emails while demonstrating how incomplete, vague, or misleading messages can resemble phishing attempts.
 
-PhishArena combines professional email writing practice with phishing-awareness training through a case-based game environment powered by real email infrastructure.
+PhishArena combines email-based interaction, AI evaluation, and a case-based game environment to provide practical cybersecurity awareness training.
 
 ---
 
@@ -17,7 +17,7 @@ PhishArena combines professional email writing practice with phishing-awareness 
 ```bash
 git clone https://github.com/Aldana-althawadi/PhishArena-_Game.git
 cd PhishArena
-```
+````
 
 ### 2. Create virtual environment
 
@@ -38,21 +38,16 @@ pip install flask
 python3 app.py
 ```
 
-The web interface will open at:
-👉 http://127.0.0.1:5000
+Open in browser:
+ [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ---
 
-## 📧 Thunderbird Configuration
+## 📧 Email-Based Gameplay (Primary Mode)
 
-PhishArena uses a real email system (Postfix + Dovecot).
-You must configure Thunderbird to send and receive emails.
+PhishArena is built around a **real email interaction model** using Postfix and Dovecot.
 
-### Example Account
-
-* Email: `player1@emailme.com`
-* Username: `player1`
-* Password: `pass123`
+Players must use an email client (Thunderbird) to complete cases.
 
 ### 📥 Incoming Mail (IMAP - Dovecot)
 
@@ -68,11 +63,17 @@ You must configure Thunderbird to send and receive emails.
 * Security: None
 * Authentication: None
 
+### Example Account
+
+* Email: `player1@emailme.com`
+* Username: `player1`
+* Password: `pass123`
+
 ---
 
 ## 🎮 How It Works
 
-PhishArena is a case-based interactive game where users complete email scenarios to progress.
+PhishArena is a case-based interactive game.
 
 ### Game Flow
 
@@ -81,16 +82,18 @@ PhishArena is a case-based interactive game where users complete email scenarios
 3. Read the mission brief + hints
 4. Send an email using Thunderbird
 5. Click **"Check My Attempt"**
-6. Receive evaluation + feedback
-7. If successful → receive a FLAG via email
-8. Submit the flag to complete the case
+6. System reads the email from Maildir
+7. AI evaluates the message
+8. System replies via email
+9. Player retrieves the response and extracts the FLAG
+10. Submit the flag in the web interface to unlock the next case
 
 ---
 
 ## 🏁 Flag System
 
 * Flags are **NOT shown in the UI**
-* Flags are sent **ONLY via email reply**
+* Flags are delivered **ONLY via email response**
 * Players must:
 
   * check inbox
@@ -107,48 +110,123 @@ Each email is evaluated using AI based on:
 * Realism
 * Completeness
 
-A passing score allows progression.
-A weak email requires improvement and retry.
+A successful attempt unlocks the next case.
+A weak attempt requires improvement.
+
+---
+
+## 🌐 Alternative Testing Mode (Web Mode)
+
+Due to hardware and deployment limitations, a **web-based submission mode** was implemented.
+
+### Purpose
+
+* Enables testing across multiple devices
+* Removes dependency on email clients (Thunderbird)
+* Used for demonstrations and evaluation
+
+### How It Works
+
+* Users submit messages directly in the browser
+* AI evaluates the message instantly
+* Feedback and scores are displayed in the UI
+* Flag is revealed directly for testing
+
+> ⚠️ This mode is not the primary system design, but a practical workaround for testing.
+
+---
+
+## 🌍 Multi-Device Deployment
+
+The system was tested across multiple devices using a local network setup.
+
+### Configuration
+
+* Virtual Machine (Ubuntu) running Flask
+* VirtualBox NAT + Port Forwarding
+* Host machine IP used for access
+
+### Access
+
+```
+http://HOST_IP:5000
+```
+
+Example:
+
+```
+http://192.168.100.18:5000
+```
+
+### Tested Devices
+
+* 1 Host Laptop
+* 1 Additional Laptop
+* 2 Tablets (iPads)
+
+---
+
+## 🧪 Testing Summary
+
+The system was validated across multiple devices.
+
+### Verified Features
+
+* Multi-device access
+* Case interaction
+* Message submission
+* AI evaluation
+* Score generation
+* Flag system
+* Case progression
+* Shared progress synchronization
+
+### Result
+
+The system functioned correctly across all devices and maintained stability under concurrent usage.
 
 ---
 
 ## 🧠 Core Concept
 
-PhishArena teaches that phishing is not only about malicious links —
-it is about **how communication is structured**.
+PhishArena demonstrates that phishing is not only about malicious links, but also about:
+
+> **how communication is structured**
 
 Users learn to:
 
-* Write clear and structured emails
-* Provide sufficient supporting information
-* Understand how weak communication resembles phishing
+* Write clear and professional emails
+* Provide sufficient and realistic information
+* Recognize weak or suspicious communication patterns
 
 ---
 
 ## 📁 Project Structure
 
+```
 phishArena/
-
-* app.py → Main Flask application
-* cases/
-
-  * profiles.py → Cases & scenarios
-  * helpers.py → Case logic
-* mail/
-
-  * mail_reader.py → Reads Maildir
-  * smtp_sender.py → Sends responses
-* llm/
-
-  * checker.py → Validation logic
-  * pipeline.py → AI pipeline
-  * rag.py → Retrieval system
-  * reply_generator.py → Response generation
-  * post_processor.py → Output validation
-* logs/ → Game logs
-* templates/ → HTML pages
-* static/ → Images & assets
-* env/ → Virtual environment
+│
+├── app.py                → Main Flask application
+├── cases/
+│   ├── profiles.py      → Cases & scenarios
+│   ├── helpers.py       → Case logic
+│
+├── mail/
+│   ├── mail_reader.py   → Reads Maildir
+│   ├── smtp_sender.py   → Sends responses
+│
+├── llm/
+│   ├── checker.py       → Validation logic
+│   ├── pipeline.py      → AI pipeline
+│   ├── rag.py           → Retrieval system
+│   ├── reply_generator.py → Response generation
+│   ├── post_processor.py → Output validation
+│
+├── logs/                → Game logs & progress
+├── templates/           → HTML pages
+├── static/              → Images & assets
+└── env/                 → Virtual environment
+```
 
 ---
 
@@ -164,7 +242,7 @@ phishArena/
 
 This project was developed as a final-year cybersecurity project at:
 
-University of Bahrain
+**University of Bahrain**
 College of Information Technology – 2026
 
 ---
@@ -179,4 +257,6 @@ College of Information Technology – 2026
 
 # 🎯 PhishArena
 
-Train smart. Think deeper. Communicate better.
+**Train smart. Think deeper. Communicate better.**
+
+

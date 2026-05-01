@@ -1,0 +1,108 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 8,
+    "realism": 9,
+    "completeness": 0
+  }
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 5,
+    "realism": 8,
+    "completeness": 2
+  }
+}
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 8,
+    "realism": 9,
+    "completeness": 6.5
+  },
+  "reason": "too formal and overly strict"
+[DEBUG] Invalid AI JSON. Falling back to local evaluation.
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 8,
+    "realism": 4,
+    "completeness": 9
+  },
+  "reason": "overly strict request for student ID verification details, missing institution and campus information"
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 0,
+    "realism": 1,
+    "completeness": 4.0
+  },
+  "reason": "Not convincing email"
+[DEBUG] Invalid AI JSON. Falling back to local evaluation.
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 7,
+    "realism": 10,
+    "completeness": 8.5
+  }
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "parent": ["guardian", "mother", "father"],
+  "student": ["learner", "pupil"],
+  "status": true,
+  "scores": {
+    "professionalism": 6,
+    "realism": 0,
+    "completeness": 10
+  }
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 7.5,
+    "realism": 8.5,
+    "completeness": 9
+  },
+  "reason": "Good tone and structure, but could be more specific about the student's situation"
+}
+ * Serving Flask app 'app'
+ * Debug mode: on
