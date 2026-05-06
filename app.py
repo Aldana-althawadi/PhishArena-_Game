@@ -33,7 +33,7 @@ PLAYER_USERNAME = "player1"
 
 # True = browser-based submission for testing
 # False = original Thunderbird/email mode
-WEB_SUBMISSION_MODE = False
+WEB_SUBMISSION_MODE = False 
 
 PROGRESS_FILE = "logs/player_progress.json"
 

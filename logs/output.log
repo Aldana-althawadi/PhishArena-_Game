@@ -106,3 +106,39 @@
 }
  * Serving Flask app 'app'
  * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+
+[DEBUG] Raw LLM response:
+ {
+  "status": false,
+  "scores": {
+    "professionalism": 2,
+    "realism": 1,
+    "completeness": 0.5
+  },
+  "reason": "Not enough information provided in the required details."
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "status": false,
+  "scores": {
+    "professionalism": 7.5,
+    "realism": 9.0,
+    "completeness": 8.0
+  }
+}
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 10,
+    "realism": 8,
+    "completeness": 9.5
+  },
+  "reason": "Too formal, lacks student context"
+}
+ * Serving Flask app 'app'
+ * Debug mode: on

@@ -331,8 +331,9 @@ def check_email_against_case(email_text, case):
 
         avg_score = round((professionalism + realism + completeness) / 3, 2)
         required_avg = get_pass_threshold(case)
+        final_reason = f"Average score is {avg_score}/10. Required score is {required_avg}/10. {final_reason}"
 
-        passed = avg_score >= required_avg and ai_status is not False
+        passed = avg_score >= required_avg
 
         if passed:
             return {

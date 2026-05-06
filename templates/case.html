@@ -429,7 +429,7 @@
               type="text"
               name="flag"
               class="flag-input"
-              placeholder="Enter flag (e.g., FLAG-1234)"
+              placeholder="Enter flag (e.g., FLAG-****)"
               required
             >
             <button type="submit" class="flag-btn">Submit Flag</button>
@@ -442,8 +442,8 @@
   {% if not case_completed and case_openable %}
 <script>
   const liveMessage = document.getElementById("liveMessage");
-  const WEB_MODE = {{ web_submission_mode|tojson }};
-
+  const WEB_MODE = {{ web_submission_mode | tojson }};
+  
   if (WEB_MODE) {
     const toggleBtn = document.getElementById("toggleWebFormBtn");
     const panel = document.getElementById("webSubmissionPanel");
