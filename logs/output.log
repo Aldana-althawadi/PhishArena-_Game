@@ -142,3 +142,103 @@
 }
  * Serving Flask app 'app'
  * Debug mode: on
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 6,
+    "realism": 9,
+    "completeness": 8.5
+  },
+  "reason": "The email seems to be a simple verification request, which is a reasonable and acceptable practice for a student training game."
+}
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+AI response time: 28.83 seconds
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 7.5,
+    "realism": 8.5,
+    "completeness": 9.0
+  }
+}
+ * Serving Flask app 'app'
+ * Debug mode: on
+AI response time: 87.98 seconds
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 0,
+    "realism": 0,
+    "completeness": 0
+  },
+  "reason": "The email lacks the necessary information to proceed and is not formatted as per the required structure."
+}
+AI response time: 29.91 seconds
+
+[DEBUG] Raw LLM response:
+ {
+  "status": false,
+  "scores": {
+    "professionalism": 10,
+    "realism": 10,
+    "completeness": 10.0
+  },
+  "reason": "The email is realistic, professional and complete as expected for a student training game."
+}
+AI response time: 28.75 seconds
+
+[DEBUG] Raw LLM response:
+ { "status": true, "scores": { "professionalism": 5, "realism": 8, "completeness": 9 }, "reason": "overly strict" }
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on
+AI response time: 48.35 seconds
+
+[DEBUG] Raw LLM response:
+ {  
+  "status": false,
+  "scores": {
+    "professionalism": -3, 
+    "realism": 1, 
+    "completeness": -2.5
+  }
+}
+AI response time: 19.53 seconds
+
+[DEBUG] Raw LLM response:
+ {
+  "status": false,
+  "scores": {
+    "professionalism": 5,
+    "realism": 8,
+    "completeness": 6
+  },
+  "reason": "overly formal tone" 
+}
+ * Serving Flask app 'app'
+ * Debug mode: on
+AI response time: 66.22 seconds
+
+[DEBUG] Raw LLM response:
+ {
+  "status": true,
+  "scores": {
+    "professionalism": 6,
+    "realism": 8,
+    "completeness": 5.3
+  },
+  "reason": "The email is a good start but lacks clear references to the school record details and uses overly formal language for a student training game."
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Serving Flask app 'app'
+ * Debug mode: on

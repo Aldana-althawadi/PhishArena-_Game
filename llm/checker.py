@@ -1,39 +1,21 @@
+# hybird evaluation engine  
 import re
 import json
 from llm.llm_handler import ask_llm
 
 
 def normalize(text):
-    """
-    Normalize text for safer matching.
-    """
     if not text:
         return ""
 
     text = text.lower().strip()
-    text = re.sub(r"[_\-]+", " ", text)       # student-id -> student id
-    text = re.sub(r"[^\w\s]", " ", text)      # remove punctuation
-    text = re.sub(r"\s+", " ", text).strip()  # normalize spaces
+    text = re.sub(r"[_\-]+", " ", text)
+    text = re.sub(r"[^\w\s]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
     return text
 
 
-def check_required_info(email_text, required_info):
-    """
-    Supports:
-    1) Old format:
-       ["school", "hospital", "student id"]
-
-    2) Grouped format:
-       [
-           ["school", "institution", "campus"],
-           ["hospital", "clinic", "medical"],
-           ["student id", "st id", "student number"]
-       ]
-
-    Rules:
-    - string => must appear
-    - list => at least one phrase from the list must appear
-    """
+def check_required_info(email_text, required_info): 
     missing = []
     normalized_email = normalize(email_text)
 
@@ -48,6 +30,7 @@ def check_required_info(email_text, required_info):
                 if normalize(phrase) in normalized_email:
                     found = True
                     break
+
             if not found:
                 missing.append(" / ".join(item))
 
@@ -55,9 +38,6 @@ def check_required_info(email_text, required_info):
 
 
 def score_professionalism(email_text):
-    """
-    Simple local professionalism score.
-    """
     score = 4
     lowered = email_text.lower()
 
@@ -81,9 +61,6 @@ def score_professionalism(email_text):
 
 
 def score_realism(email_text):
-    """
-    Simple local realism score.
-    """
     score = 4
     lowered = email_text.lower()
 
@@ -103,10 +80,8 @@ def score_realism(email_text):
 
 
 def score_completeness(email_text, required_info):
-    """
-    Completeness based on requirement coverage.
-    """
     total = len(required_info)
+
     if total == 0:
         return 10
 
@@ -118,9 +93,6 @@ def score_completeness(email_text, required_info):
 
 
 def build_prompt(email_text, case, local_scores):
-    """
-    AI prompt used only as a refinement layer.
-    """
     return f"""
 You are evaluating a training-game email submission.
 
@@ -150,6 +122,8 @@ Instructions:
 - Return ONLY valid JSON.
 - Do not use markdown.
 - Do not add any explanation outside the JSON.
+- The JSON must start with {{ and end with }}.
+- Do not omit closing brackets.
 
 Return exactly:
 {{
@@ -166,14 +140,12 @@ Return exactly:
 
 def extract_json(text):
     """
-    Try hard to extract JSON from LLM output safely.
+    Extract JSON from LLM output and repair simple incomplete JSON when possible.
     """
     if not text:
         return None
 
     text = text.strip()
-
-    # Remove markdown fences if present
     text = text.replace("```json", "").replace("```", "").strip()
 
     try:
@@ -181,15 +153,27 @@ def extract_json(text):
     except Exception:
         pass
 
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if match:
-        candidate = match.group().strip()
-        try:
-            return json.loads(candidate)
-        except Exception:
-            pass
+    match = re.search(r"\{.*", text, re.DOTALL)
+    if not match:
+        return None
 
-    return None
+    candidate = match.group().strip()
+
+    try:
+        return json.loads(candidate)
+    except Exception:
+        pass
+
+    open_braces = candidate.count("{")
+    close_braces = candidate.count("}")
+
+    if open_braces > close_braces:
+        candidate = candidate + ("}" * (open_braces - close_braces))
+
+    try:
+        return json.loads(candidate)
+    except Exception:
+        return None
 
 
 def safe_float(value, default=0.0):
@@ -200,10 +184,6 @@ def safe_float(value, default=0.0):
 
 
 def merge_scores(local_scores, ai_scores):
-    """
-    Blend local stable scores with AI scores.
-    AI can refine, but not fully control the result.
-    """
     ai_prof = safe_float(ai_scores.get("professionalism"), local_scores["professionalism"])
     ai_real = safe_float(ai_scores.get("realism"), local_scores["realism"])
     ai_comp = safe_float(ai_scores.get("completeness"), local_scores["completeness"])
@@ -218,9 +198,6 @@ def merge_scores(local_scores, ai_scores):
 
 
 def get_pass_threshold(case):
-    """
-    Level-based thresholds.
-    """
     level = case.get("level", "Junior")
 
     thresholds = {
@@ -267,16 +244,7 @@ PhishArena"""
 
 
 def check_email_against_case(email_text, case):
-    """
-    Main evaluation flow:
-    1. Basic length check
-    2. Required info check
-    3. Stable local scoring
-    4. Optional AI refinement
-    5. Safe final decision
-    """
     try:
-        # Step 1: basic length
         if len(email_text.split()) < 20:
             return {
                 "status": False,
@@ -284,7 +252,6 @@ def check_email_against_case(email_text, case):
                 "scores": None
             }
 
-        # Step 2: required info
         missing = check_required_info(email_text, case.get("required_info", []))
         if missing:
             return {
@@ -293,7 +260,6 @@ def check_email_against_case(email_text, case):
                 "scores": None
             }
 
-        # Step 3: stable local scoring
         local_scores = {
             "professionalism": score_professionalism(email_text),
             "realism": score_realism(email_text),
@@ -302,9 +268,8 @@ def check_email_against_case(email_text, case):
 
         final_scores = local_scores.copy()
         final_reason = "Local evaluation used."
-        ai_status = True
+        ai_status = False
 
-        # Step 4: optional AI refinement
         try:
             prompt = build_prompt(email_text, case, local_scores)
             llm_response = ask_llm(prompt)
@@ -317,13 +282,30 @@ def check_email_against_case(email_text, case):
                 ai_scores = result.get("scores", {})
                 final_scores = merge_scores(local_scores, ai_scores)
                 final_reason = result.get("reason", "AI-assisted evaluation used.")
-                ai_status = result.get("status", True)
+                ai_status = bool(result.get("status", False))
             else:
-                print("[DEBUG] Invalid AI JSON. Falling back to local evaluation.")
+                print("[DEBUG] Invalid AI JSON. AI evaluation rejected.")
+
+                final_scores = {
+                    "professionalism": 0,
+                    "realism": 0,
+                    "completeness": 0
+                }
+
+                final_reason = "AI response could not be parsed correctly, so the AI evaluation was rejected."
+                ai_status = False
 
         except Exception as ai_error:
             print("[DEBUG] AI evaluation error:", str(ai_error))
-            # keep local_scores
+
+            final_scores = {
+                "professionalism": 0,
+                "realism": 0,
+                "completeness": 0
+            }
+
+            final_reason = "AI evaluation error occurred, so the AI evaluation was rejected."
+            ai_status = False
 
         professionalism = safe_float(final_scores.get("professionalism"), 0)
         realism = safe_float(final_scores.get("realism"), 0)
@@ -331,9 +313,14 @@ def check_email_against_case(email_text, case):
 
         avg_score = round((professionalism + realism + completeness) / 3, 2)
         required_avg = get_pass_threshold(case)
-        final_reason = f"Average score is {avg_score}/10. Required score is {required_avg}/10. {final_reason}"
 
-        passed = avg_score >= required_avg
+        final_reason = (
+            f"Average score is {avg_score}/10. "
+            f"Required score is {required_avg}/10. "
+            f"{final_reason}"
+        )
+
+        passed = (avg_score >= required_avg) and ai_status
 
         if passed:
             return {

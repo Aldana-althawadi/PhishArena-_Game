@@ -210,6 +210,7 @@ phishArena/
 ├── cases/
 │   ├── profiles.py      → Cases & scenarios
 │   ├── helpers.py       → Case logic
+│   ├── config.py       
 │
 ├── mail/
 │   ├── mail_reader.py   → Reads Maildir
@@ -217,10 +218,7 @@ phishArena/
 │
 ├── llm/
 │   ├── checker.py       → Validation logic
-│   ├── pipeline.py      → AI pipeline
-│   ├── rag.py           → Retrieval system
-│   ├── reply_generator.py → Response generation
-│   ├── post_processor.py → Output validation
+│   ├── llm_handler.py   → Communication handling
 │
 ├── logs/                → Game logs & progress
 ├── templates/           → HTML pages

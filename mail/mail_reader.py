@@ -38,7 +38,7 @@ def normalize_email(value):
     Extract only the email address part from headers like:
     'Player One <player1@emailme.com>'
     """
-    _, addr = parseaddr(str(value))
+    _, addr = parseaddr(str(value)) # ignore first part keep addess only
     return addr.strip().lower()
 
 
@@ -55,16 +55,16 @@ def get_latest_email(sender_filter=None, receiver_filter=None, case_id_filter=No
 
     for subfolder in ["new", "cur"]:
         folder = os.path.join(base_path, subfolder)
-        if not os.path.exists(folder):
+        if not os.path.exists(folder): # to avoid crashes  
             continue
 
-        for filename in os.listdir(folder):
+        for filename in os.listdir(folder): # looping through all the emails  
             file_path = os.path.join(folder, filename)
             if not os.path.isfile(file_path):
                 continue
 
             try:
-                with open(file_path, "rb") as f:
+                with open(file_path, "rb") as f: # binary mode to handle raw MIME bytes 
                     msg = email.message_from_binary_file(f, policy=policy.default)
             except Exception:
                 continue
@@ -78,8 +78,8 @@ def get_latest_email(sender_filter=None, receiver_filter=None, case_id_filter=No
 
             if receiver_filter and to_email != receiver_filter:
                 continue
-
-            if case_id_filter and case_id_filter not in subject:
+             
+            if case_id_filter and case_id_filter not in subject: #optional:email subject must contain the case ID otherwise will fail  
                 continue
 
             candidates.append((file_path, msg))
@@ -87,7 +87,7 @@ def get_latest_email(sender_filter=None, receiver_filter=None, case_id_filter=No
     if not candidates:
         return None
 
-    latest_file, latest_msg = max(candidates, key=lambda item: os.path.getmtime(item[0]))
+    latest_file, latest_msg = max(candidates, key=lambda item: os.path.getmtime(item[0])) # ensure we get the latest email 
 
     return {
         "subject": str(latest_msg.get("Subject", "")),

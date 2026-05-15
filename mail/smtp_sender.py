@@ -11,3 +11,4 @@ def send_email_smtp(sender: str, recipient: str, subject: str, body: str,
 
     with smtplib.SMTP(smtp_host, smtp_port) as server:
         server.send_message(msg)
+        

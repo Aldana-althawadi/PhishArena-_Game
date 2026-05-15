@@ -2,20 +2,20 @@ from cases.profiles import CASES, ACTIVE_CASE
 
 LEVEL_ORDER = ["Junior", "Senior", "Head", "Chief", "CEO"]
 
-
+#target profile using the email address
 def get_profile(target_email: str):
     if not target_email:
         return None
     return CASES.get(target_email.lower())
 
-
+#retrieves all phishing scenarios assigned to a specific target
 def get_cases_for_target(target_email: str):
     profile = get_profile(target_email)
     if not profile:
         return []
     return profile.get("cases", [])
 
-
+# get the current case assigned to the target 
 def get_active_case(target_email: str):
     profile = get_profile(target_email)
     if not profile:
@@ -30,13 +30,13 @@ def get_active_case(target_email: str):
 
     return cases[idx]
 
-
+#which case the user is currently attempting 
 def get_active_case_index(target_email: str):
     if not target_email:
         return 0
     return ACTIVE_CASE.get(target_email.lower(), 0)
 
-
+# moves the target to the next case in their list 
 def advance_case(target_email: str):
     email = target_email.lower()
     profile = get_profile(email)
@@ -59,7 +59,7 @@ def reset_active_cases():
     for email in CASES.keys():
         ACTIVE_CASE[email.lower()] = 0
 
-
+# for display 
 def get_all_cases():
     """
     Flatten all cases from all targets into one list.
@@ -105,7 +105,7 @@ def normalize_text(text):
         return ""
     return str(text).strip().lower()
 
-
+#backup deterministic validation beside the AI evaluator 
 def check_required_info(email_text: str, required_info: list):
     """
     Simple keyword-based checker.
@@ -128,7 +128,7 @@ def check_required_info(email_text: str, required_info: list):
         "missing": missing
     }
 
-
+# Build the player's progress based on log entries and their email.
 def build_player_progress(log_rows, player_email: str):
     completed_case_ids = set()
     collected_flags = set()
@@ -206,7 +206,7 @@ def is_case_unlocked(case: dict, completed_case_ids: set):
     unlocked_levels = get_unlocked_levels(completed_case_ids)
     return case_level in unlocked_levels
 
-
+# for dashboard display of progress
 def get_progress_summary(log_rows, player_email: str):
     progress = build_player_progress(log_rows, player_email)
     completed_case_ids = progress["completed_case_ids"]
@@ -250,7 +250,7 @@ def can_attempt_case(case: dict, log_rows, player_email: str):
     progress = get_progress_summary(log_rows, player_email)
     return case.get("level") in progress["unlocked_levels"]
 
-
+# prepare the cases to the player as progresses 
 def get_available_active_cases_for_player(log_rows, player_email: str):
     progress = get_progress_summary(log_rows, player_email)
     completed_case_ids = progress["completed_case_ids"]
@@ -316,50 +316,3 @@ def get_next_case_in_level(case: dict):
                 return level_cases[i + 1]
             return None
     return None  
-
-def get_cases_by_level_sorted(level_name: str):
-    cases = [case for case in get_all_cases() if case.get("level") == level_name]
-    return sorted(cases, key=lambda c: c.get("order_in_level", 999))
-
-
-def is_case_completed(case_id: str, completed_case_ids: set):
-    return case_id in completed_case_ids
-
-
-def get_first_incomplete_case_in_level(level_name: str, completed_case_ids: set):
-    level_cases = get_cases_by_level_sorted(level_name)
-    for case in level_cases:
-        if case.get("case_id") not in completed_case_ids:
-            return case
-    return None
-
-
-def can_open_case(case: dict, completed_case_ids: set):
-    if not case:
-        return False
-
-    unlocked_levels = get_unlocked_levels(completed_case_ids)
-    if case.get("level") not in unlocked_levels:
-        return False
-
-    first_incomplete = get_first_incomplete_case_in_level(case.get("level"), completed_case_ids)
-    if first_incomplete is None:
-        return True
-
-    return case.get("case_id") == first_incomplete.get("case_id")
-
-
-def get_next_case_in_level(case: dict):
-    if not case:
-        return None
-
-    level_cases = get_cases_by_level_sorted(case.get("level"))
-    current_id = case.get("case_id")
-
-    for i, item in enumerate(level_cases):
-        if item.get("case_id") == current_id:
-            if i + 1 < len(level_cases):
-                return level_cases[i + 1]
-            return None
-
-    return None     
