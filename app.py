@@ -28,6 +28,7 @@ from llm.checker import check_email_against_case
 app = Flask(__name__)
 app.secret_key = "stoe"
 
+#single player controlled enviroment
 PLAYER_EMAIL = "player1@emailme.com"
 PLAYER_USERNAME = "player1"
 
@@ -42,9 +43,7 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 
-# =========================
 # Shared progress helpers
-# =========================
 
 def load_player_progress():
     os.makedirs("logs", exist_ok=True)
@@ -79,9 +78,7 @@ def mark_case_completed_for_player(player_email, case_id):
     save_player_progress(progress_data)
 
 
-# =========================
 # Routes
-# =========================
 
 @app.route("/")
 def home():
@@ -171,7 +168,7 @@ def levels():
         selected_level_unlocked=selected_level_unlocked,
     )
 
-
+# loads specific case 
 @app.route("/case/<case_id>")
 def case_page(case_id):
     case = get_case_by_id(case_id)
@@ -198,7 +195,7 @@ def case_page(case_id):
         web_submission_mode=WEB_SUBMISSION_MODE,
     )
 
-
+# checks email sent through thunderbird 
 @app.post("/case/<case_id>/process")
 def process_case(case_id):
     """
@@ -452,8 +449,7 @@ def reset_game():
     session.clear()
 
     return redirect(url_for("home"))
-    if os.path.exists(PROGRESS_FILE):
-        os.remove(PROGRESS_FILE)
+   
 
 
 @app.route("/submit_flag/<case_id>", methods=["POST"])
